@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import ProductItem from "../../components/productItem";
 import * as actionTypesProductInCategory from "./../../actions/product-in-category";
+import queryString from "query-string";
 import "./style.css";
 
 function showProductList(products) {
@@ -34,16 +35,14 @@ function PageSearch(props) {
   const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
   const productsInCategory = useSelector((state) => state.productInCategory);
-  const keySearch = useSelector((state) => state.keySearch);
   const { search } = useLocation();
-  console.log(search);
-  //console.log(keySearch);
+  const name_find = queryString.parse(search).name_find;
 
   useEffect(() => {
     const fetchProductsListCategoryAPI = async () => {
       try {
         const response = await axios.get(
-          `https://your-ecommerce.herokuapp.com/search?page=0&name_find=${keySearch.name_find}`
+          `https://your-ecommerce.herokuapp.com/search${search}&page=0`
         );
         console.log(response);
         setProducts(response.data.products);
@@ -57,7 +56,7 @@ function PageSearch(props) {
       }
     };
     fetchProductsListCategoryAPI();
-  }, [dispatch, keySearch]);
+  }, [dispatch, search]);
 
   const handelDescreaseProduct = () => {
     dispatch(actionTypesProductInCategory.sortDecreateProductInCategory());
@@ -81,7 +80,7 @@ function PageSearch(props) {
     <div className="grid wide" style={{ marginTop: "150px" }}>
       <div className="row">
         <div className="col l-12">
-          Kết quả tìm kiếm cho ` {keySearch.name_find} `:{" "}
+          Kết quả tìm kiếm cho ` {name_find} `:{" "}
           <strong>{products.length}</strong> kết quả
         </div>
       </div>

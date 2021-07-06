@@ -1,13 +1,13 @@
-import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { userLogin, getProfileUser } from "./actions/userAction";
+import { getProfileUser } from "./actions/userAction";
 import Footer from "./components/footer";
 import Header from "./components/header";
-import RegisterPage from "./pages/Register";
+import ScrollToTop from "./components/ScrollToTop";
 import LoginPage from "./pages/Login";
+import RegisterPage from "./pages/Register";
 import routers from "./routers";
 
 function App() {
@@ -15,25 +15,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = localStorage.getItem("authentication_token");
-    if (token) {
-      const inforUserFetch = async () => {
-        const myConfig = {
-          headers: { Authorization: token },
-        };
-        try {
-          const response = await axios.get(
-            "https://your-ecommerce.herokuapp.com/profile",
-            myConfig
-          );
-          dispatch(getProfileUser(response.data));
-          dispatch(userLogin({ username: response.data.email }));
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      inforUserFetch();
-    }
+    dispatch(getProfileUser());
   }, [dispatch]);
 
   return (
@@ -44,6 +26,7 @@ function App() {
       {popupForm.isPopupLogin && <LoginPage />}
       {popupForm.isPopupRes && <RegisterPage />}
       <ToastContainer />
+      <ScrollToTop />
     </Router>
   );
 }

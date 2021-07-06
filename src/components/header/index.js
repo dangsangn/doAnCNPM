@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { userLogout } from "../../actions/userAction";
+import { categoryAPI } from "../../api/categoryAPI";
 import FormSearch from "../FormSearch";
 import Notification from "../Notification";
 import * as actionsPopupForm from "./../../actions/popup-form";
@@ -10,9 +11,9 @@ import "./Header.css";
 function showMiniCart(list) {
   let result = null;
   if (list.length > 0) {
-    result = list.map((item) => {
+    result = list.map((item, index) => {
       return (
-        <div className="header--bottom-has-cart__item">
+        <div className="header--bottom-has-cart__item" key={index}>
           <div className="header--bottom-has-cart__item__img">
             <img src={item.link_image} alt={item.name} />
           </div>
@@ -29,10 +30,21 @@ function showMiniCart(list) {
 }
 
 function Header() {
-  const isLogin = useSelector((state) => state.userLogin);
+  const user = useSelector((state) => state.user);
   const listCart = useSelector((state) => state.cart);
-  //console.log(listCart);
+  const [categories, setCategories] = useState([]);
   const amountCartItem = listCart.length;
+  useEffect(() => {
+    let fetchCategoriesAPI = async () => {
+      try {
+        const response = await categoryAPI.getAll();
+        setCategories(response.categories);
+      } catch (error) {
+        console.log(error);
+      }
+    }; //
+    fetchCategoriesAPI();
+  }, []);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -46,11 +58,12 @@ function Header() {
     dispatch(actionsPopupForm.popupRegister(true));
   }
   function showFormLogin() {
+    console.log("hihi");
     dispatch(actionsPopupForm.popupLogin(true));
   }
 
   function handleRedirectToCartPage() {
-    if (!isLogin.infoUser.username) {
+    if (!user.isLogin) {
       dispatch(actionsPopupForm.popupLogin(true));
     } else {
       history.push("/cart/1");
@@ -113,7 +126,7 @@ function Header() {
                   Trợ giúp
                 </a>
               </li>
-              {!isLogin.infoUser.username ? (
+              {!user.isLogin ? (
                 <div>
                   <li className="navbar__list-item navbar__list-item--separated">
                     <button
@@ -128,7 +141,7 @@ function Header() {
                     <button
                       id="login-btn"
                       className="navbar__link navbar__link--bold"
-                      onClick={() => showFormLogin()}
+                      onClick={showFormLogin}
                     >
                       Đăng nhập
                     </button>
@@ -141,7 +154,7 @@ function Header() {
                       to="/user/account/edit"
                       className="navbar__link navbar__link--bold"
                     >
-                      {isLogin.infoUser.username}
+                      {user.email}
                     </Link>
                   </li>
                   <li className="navbar__list-item ">
@@ -173,70 +186,23 @@ function Header() {
                 <nav className="navbar">
                   <ul className="navbar__list">
                     <div className="row reset-mg">
-                      <li className="navbar__list-item">
-                        <a
-                          href="#1"
-                          className="navbar__link navbar__link--small"
-                        >
-                          Thời trang nam
-                        </a>
-                      </li>
-                      <li className="navbar__list-item">
-                        <a
-                          href="#1"
-                          className="navbar__link navbar__link--small"
-                        >
-                          Thời trang nam
-                        </a>
-                      </li>
-                      <li className="navbar__list-item">
-                        <a
-                          href="#1"
-                          className="navbar__link navbar__link--small"
-                        >
-                          Thời trang nam
-                        </a>
-                      </li>
-                      <li className="navbar__list-item">
-                        <a
-                          href="#1"
-                          className="navbar__link navbar__link--small"
-                        >
-                          Thời trang nam
-                        </a>
-                      </li>
-                      <li className="navbar__list-item">
-                        <a
-                          href="#1"
-                          className="navbar__link navbar__link--small"
-                        >
-                          Thời trang nam
-                        </a>
-                      </li>
-                      <li className="navbar__list-item">
-                        <a
-                          href="#1"
-                          className="navbar__link navbar__link--small"
-                        >
-                          Thời trang nam
-                        </a>
-                      </li>
-                      <li className="navbar__list-item">
-                        <a
-                          href="#1"
-                          className="navbar__link navbar__link--small"
-                        >
-                          Thời trang nam
-                        </a>
-                      </li>
-                      <li className="navbar__list-item">
-                        <a
-                          href="#1"
-                          className="navbar__link navbar__link--small"
-                        >
-                          Thời trang nam
-                        </a>
-                      </li>
+                      {
+                        // eslint-disable-next-line
+                        categories.map((item, index) => {
+                          if (index < 7) {
+                            return (
+                              <li className="navbar__list-item" key={index}>
+                                <Link
+                                  to={`/${item.id}/listProduct`}
+                                  className="navbar__link navbar__link--small"
+                                >
+                                  {item.name}
+                                </Link>
+                              </li>
+                            );
+                          }
+                        })
+                      }
                     </div>
                   </ul>
                 </nav>
@@ -245,7 +211,7 @@ function Header() {
             <div className="col l-2">
               <div className="hearder__bottom-cart">
                 <span className="header__bottom-cart__quantity">
-                  {!isLogin.infoUser.username ? "0" : amountCartItem}
+                  {!user.isLogin ? "0" : amountCartItem}
                 </span>
                 <button
                   onClick={handleRedirectToCartPage}
@@ -255,7 +221,7 @@ function Header() {
                   <i className="fa fa-shopping-cart" aria-hidden="true"></i>
                 </button>
                 <div className="header__bottom-show-cart">
-                  {!isLogin.infoUser.username ? (
+                  {!user.isLogin ? (
                     <div className="header__bottom-no-cart">
                       <img
                         className="header__bottom-no-cart-img"
@@ -291,36 +257,5 @@ function Header() {
     </div>
   );
 }
-
-// function showForm(id) {
-//   if (id === "register-btn") {
-//     const eleForm = document.getElementById("register-page");
-//     eleForm.style.display = "block";
-//   }
-//   if (id === "login-btn") {
-//     const eleForm = document.getElementById("login-page");
-//     eleForm.style.display = "block";
-//   }
-//   const container =
-//     id === "login-btn"
-//       ? document.getElementById("login-page")
-//       : document.getElementById("register-page");
-
-//   container.addEventListener("click", function (e) {
-//     if (
-//       document.getElementById("register-dialog").contains(e.target) ||
-//       document.getElementById("login-dialog").contains(e.target)
-//     ) {
-//       // Clicked in box
-//     } else {
-//       //Clicked outside the box
-//       const eleForm =
-//         id === "login-btn"
-//           ? document.getElementById("login-page")
-//           : document.getElementById("register-page");
-//       eleForm.style.display = "none";
-//     }
-//   });
-// }
 
 export default Header;

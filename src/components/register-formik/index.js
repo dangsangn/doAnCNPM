@@ -2,10 +2,18 @@ import InputField from "./../../custom-fields/InputField";
 import { FastField, Form, Formik } from "formik";
 import PropTypes from "prop-types";
 import React from "react";
-import { Button, FormGroup, Spinner } from "reactstrap";
+import { Button, FormGroup } from "reactstrap";
 
 import * as Yup from "yup";
+import { css } from "@emotion/react";
+import ClipLoader from "react-spinners/HashLoader";
 
+const override = css`
+  display: block;
+  margin-left: 12px;
+  border-color: red;
+  float: left;
+`;
 RegisterForm.propTypes = {
   onSubmit: PropTypes.func,
 };
@@ -72,7 +80,12 @@ function RegisterForm(props) {
 
             <FormGroup>
               <Button type="submit" color={"primary"}>
-                {isSubmitting && <Spinner size="sm" />}
+                <ClipLoader
+                  color={"#fff"}
+                  loading={isSubmitting}
+                  css={override}
+                  size={24}
+                />
                 Register
               </Button>
             </FormGroup>

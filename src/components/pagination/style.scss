@@ -1,0 +1,24 @@
+.pagination-content {
+  .pagination {
+    display: flex;
+    justify-content: center;
+    li {
+      margin: 12px;
+      a {
+        font-size: 1.8rem;
+        cursor: pointer;
+      }
+    }
+    li.active {
+      a {
+        color: black;
+        text-decoration: underline;
+      }
+    }
+    li.disabled {
+      a {
+        color: rgb(124, 124, 124);
+      }
+    }
+  }
+}

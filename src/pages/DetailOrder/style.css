@@ -1,0 +1,90 @@
+.detail-order h3 {
+  font-size: 1.6rem;
+  margin-bottom: 12px;
+}
+
+.detail-order__title {
+  font-size: 2rem;
+}
+
+.detail-order__title span {
+  font-weight: 400;
+}
+
+.detail-order__time {
+  font-size: 1.3rem;
+  margin: 24px 0;
+  font-size: 1.4rem;
+}
+
+.detail-order__user,
+.detail-order__transpost,
+.detail-order__payment {
+  background-color: #fff;
+  padding: 12px;
+  height: 100%;
+}
+
+.detail-order__user h4 {
+  text-transform: uppercase;
+}
+
+.detail-order__user p {
+  margin-bottom: 0;
+}
+
+.detail-order__list {
+  background-color: #fff;
+}
+
+.detail-order__list th,
+.detail-order__list td {
+  padding: 24px 12px;
+}
+
+.detail-order__list {
+  width: 100%;
+}
+.detail-order__list thead {
+  border-bottom: 1px solid #ddd;
+  padding: 12px 0;
+}
+
+.detail-order__action {
+  margin: 24px 0;
+}
+.detail-order__action__wite-review button {
+  width: 20%;
+  background-color: #fff;
+  border: 1px solid var(--colorPrimary);
+  color: var(--colorPrimary);
+}
+.detail-order__img {
+  width: 50px;
+  margin-right: 8px;
+}
+.detail-order__action {
+  position: relative;
+}
+.detail-order__action .btn--bought-again {
+  position: absolute;
+  right: 55%;
+  top: 0;
+  width: 20%;
+  margin-right: 24px;
+  background-color: #fff;
+  color: var(--colorPrimary);
+  border: 1px solid var(--colorPrimary);
+}
+
+.detail-order__total table {
+  width: 40%;
+  float: right;
+  font-size: 1.5rem;
+  text-align: right;
+}
+
+.detail-order__total__special {
+  color: red;
+  font-size: 1.8rem;
+}

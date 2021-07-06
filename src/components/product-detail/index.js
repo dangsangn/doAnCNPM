@@ -6,6 +6,8 @@ import { useHistory } from "react-router";
 import * as actionsForm from "./../../actions/popup-form";
 import axiosClient from "../../api/axiosClient";
 import * as toastMessage from "./../../helpers/toastMessage";
+import historyNew from "../../utils/history";
+import { withRouter } from "react-router";
 
 function showRating(value) {
   let result = [];
@@ -19,10 +21,20 @@ function showRating(value) {
 }
 
 function ProductDetail(props) {
-  const isLogin = useSelector((state) => state.userLogin);
-  const userId = isLogin.infoUser.username;
-  const { id, rating, name, price, description, link_image } =
-    props.dataProduct;
+  const user = useSelector((state) => state.user);
+
+  const userId = user.email;
+  const {
+    id,
+    rating,
+    name,
+    price,
+    description,
+    link_image,
+    name_shop,
+    shop_link_image,
+    shop_id,
+  } = props.dataProduct;
 
   const token = localStorage.getItem("authentication_token");
   const myConfig = {
@@ -76,6 +88,12 @@ function ProductDetail(props) {
 
   const handleChangQuantity = (value) => {
     setQuantity(quantity + value);
+  };
+
+  const handleToPageShop = () => {
+    //historyNew.push("/shop/" + shop_id);
+    //console.log(historyNew);
+    history.push("/shop/" + shop_id);
   };
 
   return (
@@ -192,10 +210,10 @@ function ProductDetail(props) {
                       <div className="shop-extend">
                         <div className="shop-extend__name">
                           <span className="shop-extend__name__img">
-                            <img src={"..."} alt={"shopName"} />
+                            <img src={shop_link_image} alt={"shopName"} />
                           </span>
                           <span className="shop-extend__name__tag">
-                            {"shopName"}
+                            {name_shop}
                           </span>
                         </div>
                         <div className="row">
@@ -209,7 +227,10 @@ function ProductDetail(props) {
                                 ></i>
                               </p>
                               <p>{"soldQuantity"}</p>
-                              <button className="btn shop-extend__btn">
+                              <button
+                                onClick={handleToPageShop}
+                                className="btn shop-extend__btn"
+                              >
                                 <i
                                   className="fa fa-shopping-basket"
                                   aria-hidden="true"
@@ -298,4 +319,4 @@ function ProductDetail(props) {
   );
 }
 
-export default ProductDetail;
+export default withRouter(ProductDetail);

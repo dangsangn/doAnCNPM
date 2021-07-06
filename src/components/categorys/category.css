@@ -15,11 +15,17 @@
 
 .category__container {
   position: relative;
+  padding-bottom: 20px;
+}
+
+.category__container .slick-dots {
+  display: none !important;
 }
 
 .category__title-item {
+  display: block;
   border: 0.5px solid rgb(235, 235, 235);
-  height: 152px;
+  height: 160px;
   display: inline-block;
   color: var(--colorTetx);
 }
@@ -35,22 +41,4 @@
 
 .category__title-item:hover {
   box-shadow: 0px 0px 5px rgba(1, 127, 255, 0.7);
-}
-
-@keyframes nextCategory {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-@keyframes backCategory {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0%);
-  }
 }

@@ -1,24 +1,23 @@
 import { combineReducers } from "redux";
-import products from "./products";
-import userLogin from "./userLogin";
-import userRegister from "./userRegister";
 import cart from "./cart";
-import productInCategory from "./product-in-category";
+import keySearch from "./keySearch";
 import order from "./order";
 import popupForm from "./popup-form";
+import productInCategory from "./product-in-category";
+import products from "./products";
 import user from "./user";
-import keySearch from "./keySearch";
-
+import shop from "./shop";
+import ui from "./ui";
 const rootReducer = combineReducers({
   products,
-  userLogin,
-  userRegister,
   cart,
   order,
   productInCategory,
   popupForm,
   user,
   keySearch,
+  shop,
+  ui,
 });
 
 export default rootReducer;

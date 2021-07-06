@@ -1,12 +1,11 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import * as toastMessage from "./../../helpers/toastMessage";
-import LoginFormik from "./../../components/login-formik";
-import axios from "axios";
+import { useDispatch } from "react-redux";
 import { userLogin } from "../../actions/userAction";
 import * as actionsPopupForm from "./../../actions/popup-form";
+import LoginFormik from "./../../components/login-formik";
+import LoginByGoole from "./../../components/login-google";
+
 function Login(props) {
-  const isLogin = useSelector((state) => state.userLogin);
   const dispatch = useDispatch();
   const initialValues = {
     nameuser: "",
@@ -18,19 +17,7 @@ function Login(props) {
       username: value.name,
       password: value.password,
     };
-    try {
-      const response = await axios.post(
-        "https://your-ecommerce.herokuapp.com/users/login",
-        data
-      );
-      const authentication_token = response.data.authentication_token;
-      const name = response.data.email;
-      localStorage.setItem("authentication_token", authentication_token);
-      dispatch(userLogin({ username: name }));
-    } catch (error) {
-      console.log(error);
-      toastMessage.toastError("Login fail. Please login again!");
-    }
+    dispatch(userLogin(data));
   };
 
   const handelExitButton = () => {
@@ -45,7 +32,6 @@ function Login(props) {
             <div className="content-form">
               <h2 className="content-form__title">Xin chào,</h2>
               <p className="content-form__title-content">Đăng nhập tài khoản</p>
-              {/* <FormLogin /> */}
               <LoginFormik
                 onSubmit={handleSubmit}
                 initialValues={initialValues}
@@ -61,9 +47,7 @@ function Login(props) {
                 <a href="#1">
                   <i className="fa fa-facebook" aria-hidden="true"></i>
                 </a>
-                <a href="#1">
-                  <i className="fa fa-google" aria-hidden="true"></i>
-                </a>
+                <LoginByGoole />
                 <a href="#1">
                   <img src="/images/icon-zalo.png" alt="" />
                 </a>
@@ -99,7 +83,7 @@ function Login(props) {
       </div>
     </div>
   );
-  let result = isLogin.infoUser.username ? "" : loginComponent;
+  let result = loginComponent;
 
   return result;
 }

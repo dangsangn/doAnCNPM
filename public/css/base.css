@@ -6,7 +6,7 @@
 
 body {
   font-family: "Roboto", sans-serif;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 
 * {
@@ -24,6 +24,10 @@ a {
   text-decoration: none !important;
 }
 
+img {
+  width: 100%;
+}
+
 .mt-50 {
   margin-top: 50px;
 }
@@ -34,6 +38,38 @@ a {
 
 .mb-150 {
   margin-top: 150px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-space-between {
+  justify-content: space-between;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.text-clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.text-clamp--1 {
+  -webkit-line-clamp: 1;
+}
+.text-clamp--2 {
+  -webkit-line-clamp: 2;
+}
+.text-clamp--5 {
+  -webkit-line-clamp: 5;
 }
 
 .form-group input[type="text"],

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import SlideBar from "./../../components/slideBar";
-import "./style.css";
 import axios from "axios";
-import ProductItem from "../../components/productItem";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Carousel from "../../components/carousel";
+import ProductItem from "../../components/productItem";
 import * as actionTypesProductInCategory from "./../../actions/product-in-category";
+import "./style.css";
 function showProductList(products) {
   let result = null;
   if (products.length > 0) {
@@ -28,6 +28,30 @@ function showProductList(products) {
   }
   return result;
 }
+
+const listImg = [
+  {
+    src: "../images/slidebar/slidebar1.jfif",
+  },
+  {
+    src: "../images/slidebar/slidebar2.jfif",
+  },
+  {
+    src: "../images/slidebar/slidebar3.jfif",
+  },
+  {
+    src: "../images/slidebar/slidebar4.jfif",
+  },
+  {
+    src: "../images/slidebar/slidebar5.jfif",
+  },
+  {
+    src: "../images/slidebar/slidebar6.jfif",
+  },
+  {
+    src: "../images/slidebar/slidebar7.jfif",
+  },
+];
 
 function ProducListCategory(props) {
   const match = props.match;
@@ -73,7 +97,7 @@ function ProducListCategory(props) {
     <div className="grid wide" style={{ marginTop: "150px" }}>
       <div className="row">
         <div className="col l-12">
-          <SlideBar />
+          <Carousel data={listImg} numCol={3} numItem={2} />
           Danh sách sản phẩm
         </div>
       </div>

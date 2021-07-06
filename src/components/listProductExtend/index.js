@@ -30,7 +30,7 @@ function showProducts(productsList) {
 function ListProductExtend(props) {
   const { data } = props;
 
-  var settings = {
+  let settings = {
     dots: true,
     infinite: true,
     speed: 1000,

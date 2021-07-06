@@ -1,13 +1,11 @@
-import axios from "axios";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { userLogin, userRegister } from "../../actions/userAction";
+import { userRegister } from "../../actions/userAction";
 import * as actionsPopupForm from "./../../actions/popup-form";
-//import FormRegister from "../../components/FormRegister";
 import FormRegister from "./../../components/register-formik";
+import RegisterByGoogle from "./../../components/register-google";
 
 function RegisterPage(props) {
-  //const isUserRegister = useSelector((state) => state.userRegister);
   const dispatch = useDispatch();
 
   const initialValues = {
@@ -24,23 +22,7 @@ function RegisterPage(props) {
       password: value.password,
       password_confirmation: value.passwordConfirm,
     };
-    try {
-      const response = await axios.post(
-        "https://your-ecommerce.herokuapp.com/users/signup",
-        data
-      );
-      if (response.status === 201) {
-        dispatch(userRegister({ isRegister: true }));
-        const authentication_token = response.data.authentication_token;
-        const name = response.data.email;
-        localStorage.setItem("authentication_token", authentication_token);
-        dispatch(userLogin({ username: name }));
-      }
-    } catch (error) {
-      dispatch(userRegister({ isRegister: false }));
-      console.log(error);
-    }
-    dispatch(actionsPopupForm.popupRegister(false));
+    dispatch(userRegister(data));
   };
 
   const handelExitButton = () => {
@@ -69,9 +51,7 @@ function RegisterPage(props) {
                 <a href="#1">
                   <i className="fa fa-facebook" aria-hidden="true"></i>
                 </a>
-                <a href="#1">
-                  <i className="fa fa-google" aria-hidden="true"></i>
-                </a>
+                <RegisterByGoogle />
                 <a href="#1">
                   <img src="/images/icon-zalo.png" alt="" />
                 </a>

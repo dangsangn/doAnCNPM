@@ -1,0 +1,72 @@
+.shop-page {
+  margin-top: 160px;
+  .container {
+    max-width: 1200px;
+    padding: 0;
+  }
+  &__author {
+    background-image: url(https://cf.shopee.vn/file/afa4d8cf9051fa1278cf3c854d406480_tn);
+    background-size: 120%;
+    background-position: center;
+    border-radius: 8px;
+    overflow: hidden;
+    &__container {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 24px;
+      position: relative;
+      &::after {
+        position: absolute;
+        content: "Yêu thích";
+        background-color: rgb(252, 104, 104);
+        color: white;
+        bottom: 30%;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 4px;
+      }
+    }
+
+    &__img {
+      width: 70%;
+      height: 70%;
+      margin: auto;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    &__name {
+      text-align: center;
+      color: white;
+      padding-top: 12px;
+    }
+  }
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  &__menu-area {
+    padding-left: 16px;
+    h2 {
+      font-size: 1.5rem;
+      padding: 12px 0;
+    }
+    &__category-shop {
+      &__item {
+        padding-bottom: 4px !important;
+        border-bottom: 1px solid silver;
+        a {
+          color: #333;
+          &:hover {
+            color: rgb(128, 128, 255);
+          }
+        }
+      }
+    }
+  }
+  &__menu {
+    .active {
+      color: rgb(128, 128, 255);
+    }
+  }
+}

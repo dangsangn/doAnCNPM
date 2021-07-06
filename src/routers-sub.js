@@ -2,6 +2,7 @@ import UserNotification from "./components/user-notification";
 import UserOrderHistory from "./components/user-order-history";
 import UserProfile from "./components/user-profile-edit";
 import UserAddress from "./components/user-address";
+import DetailOrder from "./pages/DetailOrder";
 
 const routersSub = [
   {
@@ -9,6 +10,13 @@ const routersSub = [
     exact: false,
     main: () => {
       return <UserProfile />;
+    },
+  },
+  {
+    path: "/user/order/history/:id",
+    exact: true,
+    main: () => {
+      return <DetailOrder />;
     },
   },
   {

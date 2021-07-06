@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import CartItem from "../cartItem";
 import * as actionOrder from "./../../actions/order-actions";
 import * as toastMessage from "./../../helpers/toastMessage";
@@ -65,6 +64,7 @@ function Cart(props) {
               </li>
             </ol>
           </nav>
+
           <h2 class="checkout__header">
             Giỏ hàng{" "}
             <span class="checkout__amount-product">

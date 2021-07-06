@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { Button, FormGroup, Spinner } from "reactstrap";
 import * as Yup from "yup";
 import userAPI from "../../api/userAPI";
+import UpdatePassword from "../updatePassword";
 import InputField from "./../../custom-fields/InputField";
 import * as toastMessage from "./../../helpers/toastMessage";
 import "./style.css";
@@ -27,6 +28,7 @@ function UserProfile(props) {
   });
 
   const userProfile = useSelector((state) => state.user);
+  console.log(userProfile);
 
   let initialValues = {
     firstName: userProfile.first_name,
@@ -36,6 +38,7 @@ function UserProfile(props) {
     gender: userProfile.gender,
     birthday: userProfile.date_of_birth,
   };
+  console.log(initialValues);
 
   const handleSubmit = async (value) => {
     try {
@@ -136,6 +139,25 @@ function UserProfile(props) {
             );
           }}
         </Formik>
+      </div>
+      <div className="user-profile__update-password mt-50">
+        <p>
+          <button
+            class="btn btn-primary"
+            type="button"
+            data-toggle="collapse"
+            data-target="#collapseExample"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            Update password
+          </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+            <UpdatePassword />
+          </div>
+        </div>
       </div>
     </div>
   );

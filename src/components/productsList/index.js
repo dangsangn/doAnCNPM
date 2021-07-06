@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Button, FormGroup, Spinner } from "reactstrap";
+import { Button, FormGroup } from "reactstrap";
 import productApi from "../../api/productAPI";
 import ProductItem from "../productItem";
 import queryString from "query-string";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsList } from "../../actions/productAction";
+import { css } from "@emotion/react";
+import ClipLoader from "react-spinners/HashLoader";
+
+const override = css`
+  display: block;
+  margin-left: 12px;
+  border-color: red;
+  float: left;
+`;
 
 function showProducts(productsList) {
   let result = null;
   if (productsList.length > 0) {
     result = productsList.map((item) => {
       return (
-        <div class="col l-2-4">
+        <div className="col l-2-4" key={item.id}>
           <ProductItem
-            key={item.id}
             id={item.id}
             title={item.name}
             price={item.price}
@@ -36,8 +44,8 @@ function ProductList() {
     page: 0,
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
+  let [loading, setLoading] = useState(false);
+  let [color] = useState("#ffffff");
   useEffect(() => {
     const params = queryString.stringify(panigation);
     let fetchProductListApi = async () => {
@@ -45,7 +53,7 @@ function ProductList() {
         const response = await productApi.getProducts(params);
         dispatch(fetchProductsList(response.products));
         localStorage.setItem("pageNumber", response.page);
-        setIsSubmitting(false);
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -55,7 +63,7 @@ function ProductList() {
   }, [panigation, dispatch]);
 
   function handleAddProductList() {
-    setIsSubmitting(true);
+    setLoading(true);
     setPagination({
       ...panigation,
       page: +localStorage.getItem("pageNumber") + 1,
@@ -69,11 +77,18 @@ function ProductList() {
       <div className="container-btn-add-product">
         <FormGroup>
           <Button
-            type="botton"
+            type="button"
             color={"primary"}
             onClick={handleAddProductList}
           >
-            {isSubmitting && <Spinner size="sm" />}
+            {
+              <ClipLoader
+                color={color}
+                loading={loading}
+                css={override}
+                size={24}
+              />
+            }
             Xem thêm sản phẩm
           </Button>
         </FormGroup>
