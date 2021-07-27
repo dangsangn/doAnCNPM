@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./style.scss";
 
 function showRating(rating) {
   const result = [];
@@ -14,6 +15,10 @@ function showRating(rating) {
 }
 
 function ProductItem(props) {
+  let formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "VND",
+  });
   const { title, price, image, rating, discount, id, soldQuantity } = props;
   return (
     <Link to={"/productItem/" + id} className="productItem" href="#1">
@@ -21,19 +26,23 @@ function ProductItem(props) {
         <img src={image} alt="imageProduct" />
         <div></div>
       </div>
-
       <div className="productItem__content">
-        <p className="productItem__description">{title}</p>
-        <p className="productItem__rating">{showRating(rating)}</p>
-        <div className="productItem__bottom">
-          <span className="productItem__bottom-price">
-            {price} <ins>đ</ins>
-          </span>
-          <span className="productItem__bottom-quantity">
-            Đã bán {soldQuantity}
-          </span>
+        <p className="productItem__description text-clamp text-clamp--3">
+          {title}
+        </p>
+        <div>
+          <p className="productItem__rating">{showRating(rating)}</p>
+          <div className="productItem__bottom">
+            <span className="productItem__bottom-price">
+              {formatter.format(price)}
+            </span>
+            <span className="productItem__bottom-quantity">
+              Đã bán {soldQuantity}
+            </span>
+          </div>
         </div>
       </div>
+
       <div className="productItem__discout">
         <span>{discount}%</span>
         <br></br>

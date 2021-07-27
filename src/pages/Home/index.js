@@ -23,7 +23,7 @@ function HomePage(props) {
                     >
                       <img
                         src="/images/slidebar/slide-detail1.jfif"
-                        alt=""
+                        alt="imageSlide"
                         className="slide-bar__detail-img"
                       />
                     </div>
@@ -43,23 +43,22 @@ function HomePage(props) {
           </div>
         </div>
       </div>
-      <div class="--container">
-        <div class="grid wide">
-          <ProductDiscountList />
-          <div className="category">
-            <h2 className="category__title">DANH MỤC</h2>
-            <div className="category__container">
-              <Category />
-            </div>
-          </div>
 
-          <div class="product-list">
-            <div class="product-list__header">
-              <h2 class="product-list__header-title">GỢI Ý HÔM NAY</h2>
-            </div>
-            <div class="product-list__body">
-              <ProductList />
-            </div>
+      <div className="grid wide">
+        <ProductDiscountList />
+        <div className="category">
+          <h2 className="category__title">DANH MỤC</h2>
+          <div className="category__container">
+            <Category />
+          </div>
+        </div>
+
+        <div className="product-list">
+          <div className="product-list__header">
+            <h2 className="product-list__header-title">GỢI Ý HÔM NAY</h2>
+          </div>
+          <div className="product-list__body">
+            <ProductList />
           </div>
         </div>
       </div>

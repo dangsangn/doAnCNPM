@@ -31,10 +31,15 @@ function showMiniCart(list) {
 
 function Header() {
   const user = useSelector((state) => state.user);
-  const listCart = useSelector((state) => state.cart);
+  const cart = useSelector((state) => state.cart);
   const [categories, setCategories] = useState([]);
-  const amountCartItem = listCart.length;
+
+  const [height, setHeight] = useState(0);
+
   useEffect(() => {
+    window.onscroll = () => {
+      setHeight(window.pageYOffset);
+    };
     let fetchCategoriesAPI = async () => {
       try {
         const response = await categoryAPI.getAll();
@@ -42,12 +47,18 @@ function Header() {
       } catch (error) {
         console.log(error);
       }
-    }; //
+    };
     fetchCategoriesAPI();
   }, []);
 
+  const countProductInCart = (list) => {
+    return list.reduce((total, item) => {
+      return total + item.count;
+    }, 0);
+  };
   const dispatch = useDispatch();
   const history = useHistory();
+
   function handleLogout() {
     dispatch(userLogout());
     localStorage.removeItem("authentication_token");
@@ -57,8 +68,8 @@ function Header() {
   function showFormRegister() {
     dispatch(actionsPopupForm.popupRegister(true));
   }
+
   function showFormLogin() {
-    console.log("hihi");
     dispatch(actionsPopupForm.popupLogin(true));
   }
 
@@ -66,12 +77,17 @@ function Header() {
     if (!user.isLogin) {
       dispatch(actionsPopupForm.popupLogin(true));
     } else {
-      history.push("/cart/1");
+      history.push("/carts/users");
     }
   }
 
   return (
-    <div className="header">
+    <div
+      className="header"
+      style={
+        height > 0 ? { transform: "translateY(-36%)", paddingTop: "16px" } : {}
+      }
+    >
       <div className="grid wide">
         <nav className="navbar">
           <ul className="navbar__list">
@@ -103,10 +119,10 @@ function Header() {
             <li className="navbar__list-item">
               Kết nối
               <a href="#2" className="navbar__link mg-l-8">
-                <i className="fa fa-facebook-square" aria-hidden="true"></i>
+                <i className="fab fa-facebook-f"></i>
               </a>
               <a href="#4" className="navbar__link mg-l-8">
-                <i className="fa fa-instagram" aria-hidden="true"></i>
+                <i className="fab fa-instagram"></i>
               </a>
             </li>
           </ul>
@@ -171,12 +187,15 @@ function Header() {
             </div>
           </ul>
         </nav>
+
         <div className="header__bottom">
           <div className="row">
             <div className="col l-2">
-              <Link to="/" className="header__bottom-image" href="#1">
-                Shop Eco
-              </Link>
+              <div className="header__bottom__link">
+                <Link to="/" className="header__bottom-image" href="#1">
+                  Shop Eco
+                </Link>
+              </div>
             </div>
             <div className="col l-8 ">
               <div className="header__bottom-body">
@@ -209,45 +228,47 @@ function Header() {
               </div>
             </div>
             <div className="col l-2">
-              <div className="hearder__bottom-cart">
-                <span className="header__bottom-cart__quantity">
-                  {!user.isLogin ? "0" : amountCartItem}
-                </span>
-                <button
-                  onClick={handleRedirectToCartPage}
-                  className="btn--cart hearder__bottom-cart-link"
-                  href="#1"
-                >
-                  <i className="fa fa-shopping-cart" aria-hidden="true"></i>
-                </button>
-                <div className="header__bottom-show-cart">
-                  {!user.isLogin ? (
-                    <div className="header__bottom-no-cart">
-                      <img
-                        className="header__bottom-no-cart-img"
-                        src="/images/no-product.png"
-                        alt="No product"
-                      />
-                      <p className="header__bottom-no-cart-notify">
-                        Chưa có sản phẩm
-                      </p>
-                    </div>
-                  ) : amountCartItem > 0 ? (
-                    <div className="header__bottom-has-cart">
-                      {showMiniCart(listCart)}
-                    </div>
-                  ) : (
-                    <div className="header__bottom-no-cart">
-                      <img
-                        className="header__bottom-no-cart-img"
-                        src="/images/no-product.png"
-                        alt="No product"
-                      />
-                      <p className="header__bottom-no-cart-notify">
-                        Chưa có sản phẩm
-                      </p>
-                    </div>
-                  )}
+              <div className="header__bottom-cart">
+                <div className="header__bottom-cart__container">
+                  <span className="header__bottom-cart__quantity">
+                    {!user.isLogin ? 0 : countProductInCart(cart.listCart)}
+                  </span>
+                  <button
+                    onClick={handleRedirectToCartPage}
+                    className="btn--cart header__bottom-cart-link"
+                    href="#1"
+                  >
+                    <i className="fa fa-shopping-cart" aria-hidden="true"></i>
+                  </button>
+                  <div className="header__bottom-show-cart">
+                    {!user.isLogin ? (
+                      <div className="header__bottom-no-cart">
+                        <img
+                          className="header__bottom-no-cart-img"
+                          src="/images/no-product.png"
+                          alt="No product"
+                        />
+                        <p className="header__bottom-no-cart-notify">
+                          Chưa có sản phẩm
+                        </p>
+                      </div>
+                    ) : countProductInCart(cart.listCart) ? (
+                      <div className="header__bottom-has-cart">
+                        {showMiniCart(cart.listCart)}
+                      </div>
+                    ) : (
+                      <div className="header__bottom-no-cart">
+                        <img
+                          className="header__bottom-no-cart-img"
+                          src="/images/no-product.png"
+                          alt="No product"
+                        />
+                        <p className="header__bottom-no-cart-notify">
+                          Chưa có sản phẩm
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

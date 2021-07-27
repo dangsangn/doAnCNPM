@@ -1,41 +1,25 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { userLogin } from "../../actions/userAction";
 import * as actionsPopupForm from "./../../actions/popup-form";
-import LoginFormik from "./../../components/login-formik";
-import LoginByGoole from "./../../components/login-google";
+import LoginByGoole from "./LoginGoogle";
+import FormLogin from "./FormLogin";
 
 function Login(props) {
   const dispatch = useDispatch();
-  const initialValues = {
-    nameuser: "",
-    password: "",
-  };
-
-  const handleSubmit = async (value) => {
-    const data = {
-      username: value.name,
-      password: value.password,
-    };
-    dispatch(userLogin(data));
-  };
 
   const handelExitButton = () => {
     dispatch(actionsPopupForm.popupLogin(false));
   };
 
   const loginComponent = (
-    <div className="container-dialog" id="login-page">
+    <div className="container-dialog" id="login-page" style={{ marginTop: 0 }}>
       <div className="content-dialog" id="login-dialog">
         <div className="row">
           <div className="col l-7">
             <div className="content-form">
               <h2 className="content-form__title">Xin chào,</h2>
               <p className="content-form__title-content">Đăng nhập tài khoản</p>
-              <LoginFormik
-                onSubmit={handleSubmit}
-                initialValues={initialValues}
-              />
+              <FormLogin />
               <a className="content-form-link-email" href="#1">
                 Đăng nhập bằng email
               </a>
@@ -45,7 +29,7 @@ function Login(props) {
               </div>
               <div className="content-form__social">
                 <a href="#1">
-                  <i className="fa fa-facebook" aria-hidden="true"></i>
+                  <i className="fab fa-facebook-f"></i>
                 </a>
                 <LoginByGoole />
                 <a href="#1">

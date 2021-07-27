@@ -1,14 +1,44 @@
-import { FastField, Field, Form, Formik } from "formik";
+import { Button, Form, Input, Select, DatePicker, message } from "antd";
 import PropTypes from "prop-types";
-import React from "react";
-import { useSelector } from "react-redux";
-import { Button, FormGroup, Spinner } from "reactstrap";
-import * as Yup from "yup";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import userAPI from "../../api/userAPI";
-import UpdatePassword from "../updatePassword";
-import InputField from "./../../custom-fields/InputField";
-import * as toastMessage from "./../../helpers/toastMessage";
-import "./style.css";
+import UpdatePassword from "./updatePassword";
+import moment from "moment";
+import "./style.scss";
+import { getProfileUserSuccess } from "../../actions/userAction";
+import { formatTime } from "../../helpers/formatTime";
+const { Option } = Select;
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 8,
+    },
+  },
+  wrapperCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 16,
+    },
+  },
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
 
 UserProfile.propTypes = {
   onSubmit: PropTypes.func,
@@ -19,42 +49,38 @@ UserProfile.defaultProps = {
 };
 
 function UserProfile(props) {
-  const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required("This field is required."),
-    lastName: Yup.string().required("This field is required."),
-    phoneNumber: Yup.string().required("This field is required."),
-    email: Yup.string().required("This field is required."),
-    gender: Yup.string().required("This field is required."),
-  });
-
+  const [form] = Form.useForm();
+  const [dateOfBirth, setDateOfBird] = useState();
   const userProfile = useSelector((state) => state.user);
-  console.log(userProfile);
+  const dateFormat = "DD / MM / YYYY";
 
-  let initialValues = {
-    firstName: userProfile.first_name,
-    lastName: userProfile.last_name,
-    phoneNumber: userProfile.phone_number,
-    email: userProfile.email,
-    gender: userProfile.gender,
-    birthday: userProfile.date_of_birth,
-  };
-  console.log(initialValues);
+  const dispatch = useDispatch();
 
-  const handleSubmit = async (value) => {
+  useEffect(() => {
+    form.setFieldsValue({
+      first_name: userProfile.first_name,
+      last_name: userProfile.last_name,
+      phone_number: userProfile.phone_number,
+      email: userProfile.email,
+      gender: userProfile.gender,
+    });
+
+    userProfile.date_of_birth &&
+      setDateOfBird(formatTime(userProfile.date_of_birth));
+  }, [userProfile, form]);
+
+  function onChange(date, dateString) {
+    setDateOfBird(dateString);
+  }
+
+  const onFinish = async (values) => {
+    const data = { ...values, date_of_birth: dateOfBirth };
     try {
-      const data = {
-        first_name: value.firstName,
-        last_name: value.lastName,
-        phone_number: value.phoneNumber,
-        email: value.email,
-        gender: value.gender,
-        date_of_birth: value.birthday,
-      };
-      await userAPI.updateProfile(data);
-      toastMessage.toastSucces("Updated success");
+      const res = await userAPI.updateProfile(data);
+      dispatch(getProfileUserSuccess(res.data));
+      message.success("Updated success");
     } catch (error) {
-      console.log(error);
-      toastMessage.toastError("Error updating profile");
+      message.error("Update failure");
     }
   };
 
@@ -62,99 +88,119 @@ function UserProfile(props) {
     <div className="user-profile">
       <h2>Thông tin tài khoản</h2>
       <div className="user-profile__container">
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
+        <Form
+          {...formItemLayout}
+          form={form}
+          name="UpdateProfile"
+          onFinish={onFinish}
+          scrollToFirstError
         >
-          {(formikProps) => {
-            // do something here ...
-            //const { values, errors, touched, isSubmitting } = formikProps;
-            const { isSubmitting } = formikProps;
+          <Form.Item
+            name="email"
+            label="E-mail"
+            rules={[
+              {
+                type: "email",
+                message: "The input is not valid E-mail!",
+              },
+              {
+                required: true,
+                message: "Please input your E-mail!",
+              },
+            ]}
+          >
+            <Input disabled />
+          </Form.Item>
+          <Form.Item
+            name="first_name"
+            label="First name"
+            rules={[
+              {
+                required: true,
+                message: "Please input your first!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="last_name"
+            label="Last name"
+            rules={[
+              {
+                required: true,
+                message: "Please input your lastname!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-            return (
-              <Form>
-                <FastField
-                  name="firstName"
-                  type="text"
-                  component={InputField}
-                  label="First name"
-                  placeholder="Enter first name ..."
-                />
+          <Form.Item
+            name="phone_number"
+            label="Phone Number"
+            rules={[
+              {
+                required: true,
+                message: "Please input your phone number!",
+              },
+            ]}
+          >
+            <Input
+              style={{
+                width: "100%",
+              }}
+            />
+          </Form.Item>
 
-                <FastField
-                  name="lastName"
-                  type="text"
-                  component={InputField}
-                  label="Last name"
-                  placeholder="Enter last name ..."
-                />
+          <Form.Item
+            name="gender"
+            label="Gender"
+            rules={[
+              {
+                required: true,
+                message: "Please select gender!",
+              },
+            ]}
+          >
+            <Select placeholder="select your gender">
+              <Option value="nam">Male</Option>
+              <Option value="nu">Female</Option>
+              <Option value="other">Other</Option>
+            </Select>
+          </Form.Item>
+          <div className="ant-row ant-form-item ant-form-item-has-success">
+            <div className="ant-col ant-form-item-label ant-col-xs-24 ant-col-sm-8">
+              <label>Day of Bird</label>
+            </div>
+            <div className="ant-col ant-form-item-label">
+              <DatePicker
+                value={moment(dateOfBirth, dateFormat)}
+                format={dateFormat}
+                onChange={onChange}
+              />
+            </div>
+          </div>
 
-                <FastField
-                  name="phoneNumber"
-                  type="text"
-                  component={InputField}
-                  label="Số điện thoại"
-                  placeholder="Enter number phone ..."
-                />
-                <FastField
-                  name="email"
-                  type="email"
-                  component={InputField}
-                  label="Email"
-                  placeholder="Email"
-                  disabled={true}
-                />
-
-                <div id="my-radio-group">Giới tính</div>
-                <div
-                  class="radio-pick"
-                  role="group"
-                  aria-labelledby="my-radio-group"
-                >
-                  <label>
-                    <Field type="radio" name="gender" value="nam" />
-                    Nam
-                  </label>
-                  <label>
-                    <Field type="radio" name="gender" value="nu" />
-                    Nữ
-                  </label>
-                </div>
-                <FastField
-                  name="birthday"
-                  type="text"
-                  component={InputField}
-                  label="Ngày sinh
-                    (không bắt buộc)"
-                  placeholder="Ngày sinh"
-                />
-                <FormGroup>
-                  <Button type="submit" color={"primary"}>
-                    {isSubmitting && <Spinner size="sm" />}
-                    Cập nhật
-                  </Button>
-                </FormGroup>
-              </Form>
-            );
-          }}
-        </Formik>
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit">
+              Update
+            </Button>
+            <span
+              className="user-profile__update-password__btn "
+              data-toggle="collapse"
+              data-target="#updatePassword"
+              aria-expanded="false"
+              aria-controls="updatePassword"
+            >
+              Update password ?
+            </span>
+          </Form.Item>
+        </Form>
       </div>
       <div className="user-profile__update-password mt-50">
-        <p>
-          <button
-            class="btn btn-primary"
-            type="button"
-            data-toggle="collapse"
-            data-target="#collapseExample"
-            aria-expanded="false"
-            aria-controls="collapseExample"
-          >
-            Update password
-          </button>
-        </p>
-        <div class="collapse" id="collapseExample">
-          <div class="card card-body">
+        <div className="collapse" id="updatePassword">
+          <div className="card card-body">
             <UpdatePassword />
           </div>
         </div>

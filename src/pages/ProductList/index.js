@@ -1,30 +1,53 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Carousel from "../../components/carousel";
+import "swiper/components/navigation/navigation.min.css";
+import "swiper/components/pagination/pagination.min.css";
+import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper/core";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper.min.css";
+import Loading from "../../components/loading";
 import ProductItem from "../../components/productItem";
 import * as actionTypesProductInCategory from "./../../actions/product-in-category";
-import "./style.css";
+import "./style.scss";
+
+SwiperCore.use([Autoplay, Pagination, Navigation]);
+
 function showProductList(products) {
-  let result = null;
-  if (products.length > 0) {
-    result = products.map((item) => {
-      return (
-        <div class="col l-2-4">
-          <ProductItem
-            key={item.id}
-            id={item.id}
-            title={item.name}
-            price={item.price}
-            description={item.name}
-            discount={50}
-            image={item.link_image}
-            rating={4}
-            soldQuantity={item.count}
-          />
+  return products.map((item) => (
+    <div key={item.id} className="col l-2-4">
+      <ProductItem
+        id={item.id}
+        title={item.name}
+        price={item.price}
+        description={item.name}
+        discount={50}
+        image={item.link_image}
+        rating={4}
+        soldQuantity={item.count}
+      />
+    </div>
+  ));
+}
+
+function showSlides(listImg) {
+  let result = [];
+  let temp = [...listImg];
+  for (let i = 0; i < listImg.length; i += 2) {
+    result.push(
+      <SwiperSlide key={i}>
+        <div className="img-carousel">
+          {temp.splice(0, 2).map((item) => (
+            <div
+              key={Math.random() * Math.random()}
+              className="img-carousel__item"
+            >
+              <img src={item.src} alt="img slider" />
+            </div>
+          ))}
         </div>
-      );
-    });
+      </SwiperSlide>
+    );
   }
   return result;
 }
@@ -50,6 +73,9 @@ const listImg = [
   },
   {
     src: "../images/slidebar/slidebar7.jfif",
+  },
+  {
+    src: "../images/slidebar/slidebar4.jfif",
   },
 ];
 
@@ -94,53 +120,65 @@ function ProducListCategory(props) {
   };
 
   return (
-    <div className="grid wide" style={{ marginTop: "150px" }}>
-      <div className="row">
-        <div className="col l-12">
-          <Carousel data={listImg} numCol={3} numItem={2} />
-          Danh sách sản phẩm
+    <div className="product-list">
+      <div className="grid wide" style={{ marginTop: "150px" }}>
+        <div className="row">
+          <div className="col l-12">
+            <Swiper
+              spaceBetween={30}
+              centeredSlides={true}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}
+              pagination={{
+                clickable: true,
+              }}
+              navigation={true}
+              className="mySwiper"
+            >
+              {showSlides(listImg)}
+            </Swiper>
+          </div>
         </div>
-      </div>
-      <div className="row">
-        <div className="col l-6">
-          <nav class="nav nav-pills nav-fill nav-controll-product">
-            <button
-              class="btn btn-primary btn-controll-product-link"
-              onClick={handelPopularProduct}
-            >
-              Phổ Biến
-            </button>
-            <button
-              class="btn btn-primary btn-controll-product-link"
-              onClick={handelDiscountProduct}
-            >
-              Giảm giá
-            </button>
-            <button class="btn btn-primary btn-controll-product-link">
-              Hàng Mới
-            </button>
-            <button
-              class="btn btn-primary btn-controll-product-link"
-              onClick={handelInscreaseProduct}
-            >
-              Giá Thấp
-            </button>
-            <button
-              class="btn btn-primary btn-controll-product-link"
-              onClick={handelDescreaseProduct}
-            >
-              Giá Cao
-            </button>
-          </nav>
-        </div>
-      </div>
 
-      <div className="row">
-        {!products ? (
-          <h1 style={{ textAlign: "center" }}>Loading...</h1>
-        ) : (
-          showProductList(products)
-        )}
+        <div className="row">
+          <div className="col l-12">
+            <nav className="nav nav-pills nav-fill nav-controll-product">
+              <button
+                className="btn btn-primary btn-controll-product-link"
+                onClick={handelPopularProduct}
+              >
+                Phổ Biến
+              </button>
+              <button
+                className="btn btn-primary btn-controll-product-link"
+                onClick={handelDiscountProduct}
+              >
+                Giảm giá
+              </button>
+              <button className="btn btn-primary btn-controll-product-link">
+                Hàng Mới
+              </button>
+              <button
+                className="btn btn-primary btn-controll-product-link"
+                onClick={handelInscreaseProduct}
+              >
+                Giá Thấp
+              </button>
+              <button
+                className="btn btn-primary btn-controll-product-link"
+                onClick={handelDescreaseProduct}
+              >
+                Giá Cao
+              </button>
+            </nav>
+          </div>
+        </div>
+
+        <div className="row">
+          {!products ? <Loading /> : showProductList(products)}
+        </div>
       </div>
     </div>
   );

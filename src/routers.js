@@ -1,11 +1,10 @@
-import Account from "./pages/Account";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Home from "./pages/Home";
-import ShopPage from "./pages/ShopPage";
 import PageSearch from "./pages/PageSearch";
 import ProductDetailPage from "./pages/ProductDetail";
 import ProductList from "./pages/ProductList";
+import ShopPage from "./pages/ShopPage";
 
 const routes = [
   {
@@ -44,7 +43,7 @@ const routes = [
     },
   },
   {
-    path: "/cart/:userId",
+    path: "/carts/users",
     exact: true,
     main: () => {
       return <Cart />;
@@ -55,34 +54,6 @@ const routes = [
     exact: false,
     main: ({ match }) => {
       return <ProductDetailPage match={match} />;
-    },
-  },
-  {
-    path: "/user/account/edit",
-    exact: true,
-    main: () => {
-      return <Account />;
-    },
-  },
-  {
-    path: "/user/notification",
-    exact: true,
-    main: () => {
-      return <Account />;
-    },
-  },
-  {
-    path: "/user/order/history",
-    exact: true,
-    main: () => {
-      return <Account />;
-    },
-  },
-  {
-    path: "/user/address",
-    exact: true,
-    main: () => {
-      return <Account />;
     },
   },
 ];

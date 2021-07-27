@@ -1,17 +1,25 @@
 import ProductItem from "../productItem";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import "./listProductExtend.css";
+import "./style.scss";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/swiper.min.css";
+import "swiper/components/pagination/pagination.min.css";
+import "swiper/components/navigation/navigation.min.css";
+
+// import Swiper core and required modules
+import SwiperCore, { Pagination, Navigation } from "swiper/core";
+
+// install Swiper modules
+SwiperCore.use([Pagination, Navigation]);
 
 function showProducts(productsList) {
   let result = null;
   if (productsList.length > 0) {
-    result = productsList.map((item, index) => {
+    result = productsList.map((item) => {
       return (
-        <div class="col l-12">
+        <SwiperSlide key={item.id}>
           <ProductItem
-            key={item.id}
             id={item.id}
             title={item.name}
             price={item.price}
@@ -20,7 +28,7 @@ function showProducts(productsList) {
             image={item.link_image}
             rating={4}
           />
-        </div>
+        </SwiperSlide>
       );
     });
   }
@@ -30,14 +38,24 @@ function showProducts(productsList) {
 function ListProductExtend(props) {
   const { data } = props;
 
-  let settings = {
-    dots: true,
-    infinite: true,
-    speed: 1000,
-    slidesToShow: 5,
-    slidesToScroll: 5,
-  };
-  return <Slider {...settings}>{showProducts(data)}</Slider>;
+  return (
+    <div className="product-extend">
+      <Swiper
+        slidesPerView={5}
+        spaceBetween={16}
+        slidesPerGroup={3}
+        loop={true}
+        loopFillGroupWithBlank={true}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={true}
+        className="mySwiper"
+      >
+        {showProducts(data)}
+      </Swiper>
+    </div>
+  );
 }
 
 export default ListProductExtend;

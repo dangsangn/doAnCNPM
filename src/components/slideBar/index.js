@@ -27,26 +27,17 @@ function SlideBar() {
   ];
 
   function showSlide(items) {
-    let result = null;
-    if (items.length > 0) {
-      result = items.map((item, index) => {
-        return (
-          <Carousel.Item interval={2000}>
-            <img
-              key={index}
-              className="d-block w-100"
-              src={item.src}
-              alt="First slide"
-            />
-          </Carousel.Item>
-        );
-      });
-    }
-    return result;
+    return items.map((item, index) => {
+      return (
+        <Carousel.Item key={index} interval={2000}>
+          <img className="d-block w-100" src={item.src} alt="First slide" />
+        </Carousel.Item>
+      );
+    });
   }
 
   return (
-    <div class="slide-bar__container">
+    <div className="slide-bar__container">
       <Carousel>{showSlide(listImg)}</Carousel>
     </div>
   );

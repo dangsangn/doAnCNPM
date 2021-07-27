@@ -1,8 +1,3 @@
-.slide-bar {
-  padding-top: 150px;
-  background-color: #f5f5f5;
-}
-
 .slide-bar__item {
   overflow: hidden;
   display: none;

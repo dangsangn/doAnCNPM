@@ -1,16 +1,16 @@
-import axiosClient from "./axiosClient";
+import { authGet, authPost } from "./axiosClient2";
 
 export const orderAPI = {
-  get: () => {
+  getListOrder: () => {
     const url = "/orders";
-    return axiosClient.get(url);
+    return authGet(url);
   },
   postOrder: (data) => {
     const url = "/orders";
-    return axiosClient.post(url, data);
+    return authPost(url, data);
   },
   getOrderDetail: (id) => {
     const url = `/orders/${id}`;
-    return axiosClient.get(url);
+    return authGet(url);
   },
 };

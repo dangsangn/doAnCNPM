@@ -1,8 +1,14 @@
-import * as actionTypes from "./../constants/action-types-cart";
+import * as actionTypes from "../constants/cart";
 
-export const fetchCart = (data) => {
+export const getListCart = () => {
   return {
-    type: actionTypes.FETCH_CART,
+    type: actionTypes.GET_LIST_CART,
+  };
+};
+
+export const getListCartSuccess = (data) => {
+  return {
+    type: actionTypes.GET_LIST_CART_SUCCESS,
     payload: { data },
   };
 };
@@ -14,17 +20,38 @@ export const addProductToCart = (data) => {
   };
 };
 
-export const changeProductToCart = (data) => {
+export const addProductToCartSuccess = (data) => {
   return {
-    type: actionTypes.CHANGE_PRODUCT_TO_CART,
+    type: actionTypes.ADD_PRODUCT_TO_CART_SUCCESS,
     payload: { data },
   };
 };
 
-export const deleteProductToCart = (id) => {
+export const updateProductToCart = (data) => {
+  return {
+    type: actionTypes.UPDATE_PRODUCT_TO_CART,
+    payload: { data },
+  };
+};
+
+export const updateProductToCartSuccess = (data) => {
+  return {
+    type: actionTypes.UPDATE_PRODUCT_TO_CART_SUCCESS,
+    payload: { data },
+  };
+};
+
+export const deleteProductToCart = (data) => {
   return {
     type: actionTypes.DELETE_PRODUCT_TO_CART,
-    payload: { id },
+    payload: { data },
+  };
+};
+
+export const deleteProductToCartSuccess = (data) => {
+  return {
+    type: actionTypes.DELETE_PRODUCT_TO_CART_SUCCESS,
+    payload: { data },
   };
 };
 
@@ -35,9 +62,14 @@ export const isProductBought = (data) => {
   };
 };
 
-export const deleteProductListWhenOrdered = (data) => {
+export const clearIsProductBought = () => {
+  return {
+    type: actionTypes.CLEAR_IS_PRODUCT_BOUGHT,
+  };
+};
+
+export const deleteProductListWhenOrdered = () => {
   return {
     type: actionTypes.DELETE_PRODUCT_LIST_WHEN_ORDERED,
-    payload: { data },
   };
 };

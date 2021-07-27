@@ -1,7 +1,19 @@
 /* css header */
+.header {
+  background-image: linear-gradient(120deg, #006bd6, var(--colorPrimary));
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  transition: all 0.4s ease;
+}
+
+.header ~ div {
+  margin-top: 150px;
+}
+
 .navbar {
   display: flex;
-  height: 3.2rem;
   justify-content: space-between;
   align-items: center;
   margin: 0 -12px;
@@ -168,6 +180,13 @@
   font-size: 16px;
 }
 
+.header__bottom__link {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .header__notify__body {
   display: flex;
   margin-top: 12px;
@@ -219,10 +238,6 @@
   text-decoration: none;
 }
 
-.header__bottom-body {
-  padding-top: 16px;
-}
-
 .form-search {
   position: relative;
 }
@@ -259,20 +274,25 @@
   flex: 1;
 }
 
-.hearder__bottom-cart {
-  display: inline-block;
-  margin: 16% 32%;
+.header__bottom-cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.header__bottom-cart__container {
   position: relative;
 }
 
-.hearder__bottom-cart-link {
+.header__bottom-cart-link {
   display: block;
   font-size: 3rem;
   color: white;
   text-decoration: none;
   cursor: pointer;
 }
-.hearder__bottom-cart-link:focus {
+.header__bottom-cart-link:focus {
   border: none;
   outline: none;
 }
@@ -311,7 +331,7 @@
   right: 0;
 }
 
-.hearder__bottom-cart:hover .header__bottom-show-cart {
+.header__bottom-cart:hover .header__bottom-show-cart {
   display: block;
 }
 

@@ -1,5 +1,4 @@
-import axiosClient from "./axiosClient";
-import { authGet, authPost } from "./axiosClient2";
+import { authGet, authPatch, authPost, authPut } from "./axiosClient2";
 
 const userAPI = {
   login: (data) => {
@@ -20,11 +19,11 @@ const userAPI = {
   updateProfile: (data) => {
     const url = "/profile";
     const params = data;
-    return axiosClient.patch(url, params);
+    return authPatch(url, params);
   },
   updatePassword: (data) => {
     const url = "/users/password";
-    return axiosClient.put(url, data);
+    return authPut(url, data);
   },
 };
 

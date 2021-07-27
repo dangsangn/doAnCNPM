@@ -1,107 +1,68 @@
-import axios from "axios";
-import * as actionTypes from "./../constants/action-types-cart";
+import {
+  ADD_PRODUCT_TO_CART_SUCCESS,
+  CLEAR_IS_PRODUCT_BOUGHT,
+  DELETE_PRODUCT_LIST_WHEN_ORDERED,
+  DELETE_PRODUCT_TO_CART_SUCCESS,
+  GET_LIST_CART_SUCCESS,
+  IS_PRODUCT_BOUGHT,
+  UPDATE_PRODUCT_TO_CART_SUCCESS,
+} from "../constants/cart";
 
-const initialState = localStorage.getItem("cartEco")
-  ? JSON.parse(localStorage.getItem("cartEco"))
-  : [];
-
-const findIndexEl = (arr, id) => {
-  let result = -1;
-  if (arr.length > 0) {
-    result = arr.findIndex((item) => item.id === id);
-  }
-  return result;
+const initialState = {
+  listCart: [],
 };
 
 const myReducer = (state = initialState, action) => {
-  new Promise(function (resolve, reject) {
-    resolve();
-  }).then(() => {
-    const token = localStorage.getItem("authentication_token");
-    if (token) {
-      const myConfig = {
-        headers: { Authorization: token },
-      };
-      const fetchListCart = async () => {
-        try {
-          const response = await axios.get(
-            "https://your-ecommerce.herokuapp.com/carts",
-            myConfig
-          );
-          let data = response.data.products;
-          //console.log(data);
-          let newData =
-            data.length > 0
-              ? data.map((item) => {
-                  return { ...item, isBought: false };
-                })
-              : [];
-          localStorage.setItem("cartEco", JSON.stringify([...newData]));
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchListCart();
-    }
-  });
-
   switch (action.type) {
-    case actionTypes.FETCH_CART: {
-      const data = [...action.payload.data];
-      state =
-        data.length > 0
-          ? data.map((item) => {
-              return { ...item, isBought: false };
-            })
-          : [];
-      localStorage.setItem("cartEco", JSON.stringify([...state]));
-      return [...state];
-    }
+    case GET_LIST_CART_SUCCESS:
+      return { ...state, listCart: action.payload.data };
 
-    case actionTypes.ADD_PRODUCT_TO_CART:
-      const indexAdd = findIndexEl(state, action.payload.data.id);
-      if (indexAdd !== -1) {
-        state[indexAdd].count += action.payload.data.count;
-        state[indexAdd].isBought = action.payload.data.isBought;
+    case ADD_PRODUCT_TO_CART_SUCCESS:
+      const indexAdd = state.listCart.findIndex(
+        (item) => item.id === action.payload.data.id
+      );
+      if (indexAdd === -1) {
+        state.listCart.unshift(action.payload.data);
       } else {
-        state.unshift(action.payload.data);
+        state.listCart[indexAdd].count += action.payload.data.count;
       }
-      localStorage.setItem("cartEco", JSON.stringify([...state]));
-      return [...state];
+      return {
+        ...state,
+      };
+    case UPDATE_PRODUCT_TO_CART_SUCCESS:
+      const indexUpdate = state.listCart.findIndex(
+        (item) => item.id === action.payload.data.id
+      );
+      state.listCart[indexUpdate].count = action.payload.data.count;
+      return { ...state };
 
-    case actionTypes.CHANGE_PRODUCT_TO_CART:
-      const indexChange = findIndexEl(state, action.payload.data.id);
-      state[indexChange].count += action.payload.data.value;
-      localStorage.setItem("cartEco", JSON.stringify([...state]));
-      return [...state];
+    case DELETE_PRODUCT_TO_CART_SUCCESS:
+      const newListCart = state.listCart.filter(
+        (item) => item.id !== action.payload.data
+      );
+      return { ...state, listCart: newListCart };
+    case IS_PRODUCT_BOUGHT:
+      const indexProductSetBought = state.listCart.findIndex(
+        (item) => item.id === action.payload.data.id
+      );
+      state.listCart[indexProductSetBought]["isBought"] =
+        action.payload.data.isBought;
+      return { ...state };
 
-    case actionTypes.DELETE_PRODUCT_TO_CART:
-      const indexDel = findIndexEl(state, action.payload.id);
-      state.splice(indexDel, 1);
-      localStorage.setItem("cartEco", JSON.stringify([...state]));
-      return [...state];
+    case CLEAR_IS_PRODUCT_BOUGHT:
+      const newClearListCart = state.listCart.map((item) => {
+        return { ...item, isBought: false };
+      });
+      return { ...state, listCart: newClearListCart };
 
-    case actionTypes.IS_PRODUCT_BOUGHT:
-      const indexBought = findIndexEl(state, action.payload.data.id);
-      state[indexBought].isBought = action.payload.data.isBought;
-      localStorage.setItem("cartEco", JSON.stringify([...state]));
-      return [...state];
+    case DELETE_PRODUCT_LIST_WHEN_ORDERED:
+      const newProductAfterOrder = state.listCart.filter(
+        (item) => item?.isBought !== true
+      );
+      return { ...state, listCart: newProductAfterOrder };
 
-    case actionTypes.DELETE_PRODUCT_LIST_WHEN_ORDERED:
-      const listOrdered = action.payload.data;
-      const lengthList = listOrdered.length;
-      let i = 0;
-      while (i < lengthList) {
-        let indexItemOrder = findIndexEl(state, listOrdered[i].id);
-        if (indexItemOrder !== -1) {
-          state.splice(indexItemOrder, 1);
-        }
-        i++;
-      }
-      localStorage.setItem("cartEco", JSON.stringify([...state]));
-      return [...state];
     default:
-      return [...state];
+      return state;
   }
 };
 

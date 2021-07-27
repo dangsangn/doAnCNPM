@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import productApi from "../../api/productAPI";
 import ListProductExtend from "../listProductExtend";
+import Loading from "../loading";
 
 function ProductDiscountList() {
   const [products, setProducts] = useState([]);
@@ -17,11 +18,11 @@ function ProductDiscountList() {
     fetchProductsDiscountAPI();
   }, []);
   return (
-    <div class="price-suprice">
-      <h2 class="price-suprice__header">
-        Gía sốc <i class="fa fa-bolt" aria-hidden="true"></i> hôm nay
+    <div className="price-suprice">
+      <h2 className="price-suprice__header">
+        Gía sốc <i className="fa fa-bolt" aria-hidden="true"></i> hôm nay
       </h2>
-      {!products ? <h2>Loading...</h2> : <ListProductExtend data={products} />}
+      {!products ? <Loading /> : <ListProductExtend data={products} />}
     </div>
   );
 }

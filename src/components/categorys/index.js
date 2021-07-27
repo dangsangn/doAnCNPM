@@ -1,45 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { categoryAPI } from "../../api/categoryAPI";
 import CategoryItem from "../categoryItem";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import "./category.css";
-function showCategories(categories) {
-  let result = null;
-  if (categories.length > 0) {
-    result = categories.map((item, index) => {
-      return (
-        <CategoryItem
-          key={item.id}
-          id={item.id}
-          categoryName={item.name}
-          categoryThumbnail={item.link_image}
-        />
-      );
-    });
-  }
+import Loading from "../loading";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
 
-  let newResult = [];
-  for (let i = 0; i < result.length - 1; i += 2) {
-    let temp = [];
-    for (let j = i; j < i + 2; j++) {
-      temp.push(result[j]);
-    }
-    newResult.push(<div>{temp}</div>);
-  }
-  return newResult;
+// Import Swiper styles
+import "swiper/swiper.min.css";
+import "swiper/components/pagination/pagination.min.css";
+
+import "./category.scss";
+
+// import Swiper core and required modules
+import SwiperCore, { Pagination } from "swiper/core";
+
+// install Swiper modules
+SwiperCore.use([Pagination]);
+
+function showCategories(categories) {
+  return categories.map((item) => (
+    <SwiperSlide key={item.id}>
+      <CategoryItem
+        id={item.id}
+        categoryName={item.name}
+        categoryThumbnail={item.link_image}
+      />
+    </SwiperSlide>
+  ));
 }
 
 function Category() {
   const [categories, setCategories] = useState([]);
-  let settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 10,
-    slidesToScroll: 1,
-  };
+
   useEffect(() => {
     let fetchCategoriesAPI = async () => {
       try {
@@ -51,12 +43,22 @@ function Category() {
     }; //
     fetchCategoriesAPI();
   }, []);
-  if (categories.length === 0)
-    return <p style={{ textAlign: "center", fontSize: "2rem" }}>Loading...</p>;
+
+  if (categories.length === 0) return <Loading />;
   return (
-    <div>
-      <Slider {...settings}>{showCategories(categories)}</Slider>
-    </div>
+    <>
+      <Swiper
+        slidesPerView={10}
+        slidesPerColumn={2}
+        spaceBetween={0}
+        pagination={{
+          clickable: true,
+        }}
+        className="mySwiper"
+      >
+        {showCategories(categories)}
+      </Swiper>
+    </>
   );
 }
 

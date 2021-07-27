@@ -1,10 +1,11 @@
-import axiosClient from "./axiosClient";
+import { authGet, authPost } from "./axiosClient2";
 
-const reviewAPI = {
-  postReview: (data) => {
-    const url = "/reviews";
-    return axiosClient.post(url, data);
-  },
+export const postReviewApi = (data) => {
+  const url = "/reviews";
+  return authPost(url, data);
 };
 
-export default reviewAPI;
+export const getReviewOfProductApi = (id) => {
+  const url = `/products/${id}/reviews`;
+  return authGet(url);
+};

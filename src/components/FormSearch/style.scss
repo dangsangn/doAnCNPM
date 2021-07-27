@@ -1,0 +1,35 @@
+.form-search {
+  position: relative;
+  &__show {
+    width: 100%;
+    background-color: #fff;
+    position: absolute;
+    top: 110%;
+    left: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+  }
+  &__product {
+    &__info {
+      padding: 12px;
+      margin: 0;
+    }
+    &__item {
+      cursor: pointer;
+      display: flex;
+      padding: 12px;
+      align-items: center;
+      color: #333;
+
+      &:hover {
+        background-color: #eee;
+        color: #333;
+      }
+
+      img {
+        width: 50px;
+        margin-right: 12px;
+      }
+    }
+  }
+}

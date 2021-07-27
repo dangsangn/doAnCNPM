@@ -1,12 +1,9 @@
-import { FastField, Form, Formik } from "formik";
+import { Button, Form, Input, message } from "antd";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Button, FormGroup, Spinner } from "reactstrap";
-import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { getProfileUserSuccess } from "../../actions/userAction";
 import userAPI from "../../api/userAPI";
-import InputField from "./../../custom-fields/InputField";
-import * as toastMessage from "./../../helpers/toastMessage";
 import "./style.css";
 
 UserAddress.propTypes = {
@@ -18,28 +15,26 @@ UserAddress.defaultProps = {
 };
 
 function UserAddress(props) {
-  const validationSchema = Yup.object().shape({
-    address: Yup.string().required("This field is required."),
-  });
-
   const userProfile = useSelector((state) => state.user);
-
-  let [initialValues, setInitialValues] = useState({
-    address: userProfile.address,
-  });
+  const dispatch = useDispatch();
   let [checkedEdit, setCheckedEdit] = useState(false);
 
-  const handleSubmit = async (value) => {
+  const onFinish = async (values) => {
     try {
-      await userAPI.updateProfile(value);
-      toastMessage.toastSucces("Updated success");
+      const res = await userAPI.updateProfile(values);
+      if (res.status === 200) {
+        dispatch(getProfileUserSuccess(res.data));
+        message.success("Updated success");
+      } else {
+        message.warning("Updated error");
+      }
     } catch (error) {
       console.error(error);
-      toastMessage.toastError("Error updating address");
     }
-    setInitialValues({ address: "" });
+
     setCheckedEdit(false);
   };
+
   return (
     <div className="user-address">
       <h2>Sổ địa chỉ</h2>
@@ -47,26 +42,26 @@ function UserAddress(props) {
         <p className="user-address__name">
           {userProfile.first_name + " " + userProfile.last_name}{" "}
           <span>
-            <i class="fa fa-check-circle-o" aria-hidden="true"></i> Địa chỉ mặc
-            định
+            <i className="fa fa-check-circle-o" aria-hidden="true"></i> Địa chỉ
+            mặc định
           </span>
         </p>
         <p className="user-address__address">
           <span>Địa chỉ: </span>
-          {userProfile.address}
+          {userProfile.address || "No have address"}
         </p>
         <p className="user-address__phone">
           <span>Điện thoại: </span>
-          {userProfile.phone_number}
+          {userProfile.phone_number || "No have phone"}
         </p>
       </div>
 
-      <label class="label-checkbox" for="form-edit-address">
+      <label className="label-checkbox" htmlFor="form-edit-address">
         Chỉnh sửa địa chỉ{" "}
         {checkedEdit ? (
-          <i class="fa fa-chevron-up" aria-hidden="true"></i>
+          <i className="fa fa-chevron-up" aria-hidden="true"></i>
         ) : (
-          <i class="fa fa-chevron-down" aria-hidden="true"></i>
+          <i className="fa fa-chevron-down" aria-hidden="true"></i>
         )}
       </label>
       <input
@@ -76,36 +71,38 @@ function UserAddress(props) {
         checked={checkedEdit}
       />
       <div id="user-address__edit" className="user-address__edit">
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {(formikProps) => {
-            // do something here ...
-            //const { values, errors, touched, isSubmitting } = formikProps;
-            const { isSubmitting } = formikProps;
-
-            return (
-              <Form>
-                <FastField
-                  name="address"
-                  type="text"
-                  component={InputField}
-                  label="Địa chỉ mới"
-                  placeholder="Enter new address ..."
-                />
-
-                <FormGroup>
-                  <Button type="submit" color={"primary"}>
-                    {isSubmitting && <Spinner size="sm" />}
-                    Cập nhật
-                  </Button>
-                </FormGroup>
-              </Form>
-            );
+        <Form
+          name="updateAddress"
+          labelCol={{
+            span: 4,
           }}
-        </Formik>
+          wrapperCol={{
+            span: 12,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={onFinish}
+        >
+          <Form.Item
+            label="New Address"
+            name="address"
+            rules={[
+              {
+                required: true,
+                message: "Please input your address!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
     </div>
   );

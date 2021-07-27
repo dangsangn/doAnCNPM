@@ -1,46 +1,29 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { userRegister } from "../../actions/userAction";
 import * as actionsPopupForm from "./../../actions/popup-form";
-import FormRegister from "./../../components/register-formik";
-import RegisterByGoogle from "./../../components/register-google";
+import FormRegister from "./FormRegister";
+import RegisterByGoogle from "./register-google";
 
 function RegisterPage(props) {
   const dispatch = useDispatch();
-
-  const initialValues = {
-    name: "",
-    email: "",
-    password: "",
-    passwordConfirm: "",
-  };
-
-  const handleSubmit = async (value) => {
-    const data = {
-      username: value.name,
-      email: value.email,
-      password: value.password,
-      password_confirmation: value.passwordConfirm,
-    };
-    dispatch(userRegister(data));
-  };
 
   const handelExitButton = () => {
     dispatch(actionsPopupForm.popupRegister(false));
   };
 
   return (
-    <div className="container-dialog" id="register-page">
+    <div
+      className="container-dialog"
+      id="register-page"
+      style={{ marginTop: 0 }}
+    >
       <div className="content-dialog" id="register-dialog">
         <div className="row">
           <div className="col l-7">
             <div className="content-form">
               <h2 className="content-form__title">Xin chào,</h2>
               <p className="content-form__title-content">Đăng Ký tài khoản</p>
-              <FormRegister
-                initialValues={initialValues}
-                onSubmit={handleSubmit}
-              />
+              <FormRegister />
               <a className="content-form-link-email" href="#1">
                 Đăng nhập bằng email
               </a>
@@ -49,7 +32,7 @@ function RegisterPage(props) {
               </div>
               <div className="content-form__social">
                 <a href="#1">
-                  <i className="fa fa-facebook" aria-hidden="true"></i>
+                  <i className="fab fa-facebook-f"></i>
                 </a>
                 <RegisterByGoogle />
                 <a href="#1">

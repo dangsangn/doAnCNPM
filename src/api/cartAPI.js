@@ -1,10 +1,21 @@
-import axiosClient from "./axiosClient";
+import { authDelete, authGet, authPost, authPut } from "./axiosClient2";
 
-const cartAPI = {
-  getCartUser: (id) => {
-    const url = `/carts/${id}`;
-    return axiosClient.get(url);
-  },
+export const getListCartApi = () => {
+  const url = "/carts";
+  return authGet(url);
 };
 
-export default cartAPI;
+export const addProductToCartApi = (data) => {
+  const url = "/carts";
+  return authPost(url, data);
+};
+
+export const deleteProductToCartApi = (data) => {
+  const url = "carts";
+  return authDelete(url, data);
+};
+
+export const updateProductToCartApi = (data) => {
+  const url = "carts";
+  return authPut(url, data);
+};

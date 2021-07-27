@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouteMatch } from "react-router";
 import { orderAPI } from "../../api/orderAPI";
-import FormReview from "../../components/form-review";
 import "./style.css";
 
 function DetailOrder() {
@@ -110,9 +109,7 @@ function DetailOrder() {
               </button>
             </p>
             <div class="collapse" id="collapseExample">
-              <div class="card card-body">
-                <FormReview id={match.params.id} />
-              </div>
+              <div class="card card-body"></div>
             </div>
           </div>
           <button className="btn btn-primary btn--bought-again">Mua lại</button>

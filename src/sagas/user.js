@@ -18,7 +18,6 @@ import {
 
 function* loginUserSaga({ payload }) {
   const sendData = payload.data;
-
   try {
     const res = yield call(userAPI.login, sendData);
     localStorage.setItem("authentication_token", res.data.authentication_token);

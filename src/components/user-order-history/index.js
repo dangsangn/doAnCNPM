@@ -1,30 +1,83 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { orderAPI } from "../../api/orderAPI";
+import { Table } from "antd";
 import "./style.css";
-
-function showListOrder(list) {
-  let result = null;
-  if (list.length > 0) {
-    result = list.map((item) => {
-      return (
-        <tr key={item.id}>
-          <td>
-            <Link to={`/user/order/history/${item.id}`}>{item.id}</Link>
-          </td>
-          <td>{item.created_at}</td>
-          <td>{item.products[0].name}</td>
-          <td>{item.products[0].price} ₫</td>
-          <td>{item.order_status}</td>
-        </tr>
-      );
-    });
-  }
-  return result;
-}
+import { formatter } from "../../helpers/formatToPriceMoney";
 
 function UserOrderHistory(props) {
-  const [listOrder, setListOrder] = useState();
+  const [listOrder, setListOrder] = useState([]);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 4,
+  });
+  useEffect(() => {
+    const getListOder = async () => {
+      try {
+        const res = await orderAPI.getListOrder();
+        setListOrder(res.data.orders);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getListOder();
+  }, []);
+
+  function handleTableChange(pagination) {
+    setPagination(pagination);
+    window.scrollTo({
+      top: 100,
+      left: 100,
+      behavior: "smooth",
+    });
+  }
+
+  const columns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: ({ id, text }) => <Link to={id}>{text}</Link>,
+    },
+    {
+      title: "Image",
+      dataIndex: "iamge",
+      key: "age",
+      render: (url) => {
+        return <img src={url} alt="img" />;
+      },
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      render: (price) => {
+        return <p>{formatter.format(price)}</p>;
+      },
+    },
+  ];
+
+  const data = [
+    {
+      key: "1",
+      name: { id: 1, text: "abc" },
+      image: 32,
+      price: 1000,
+    },
+    {
+      key: "1",
+      name: { id: 1, text: "abc" },
+      image: 32,
+      price: 1000,
+    },
+    {
+      key: "1",
+      name: { id: 1, text: "abc" },
+      image: 32,
+      price: 1000,
+    },
+  ];
+
   useEffect(() => {
     const fetchListOrderAPI = async () => {
       try {
@@ -40,16 +93,12 @@ function UserOrderHistory(props) {
     <div className="user-order-history">
       <h2>Đơn hàng của tôi</h2>
       <div className="user-order-history__container">
-        <table>
-          <thead>
-            <th>Mã đơn hàng</th>
-            <th>Ngày mua</th>
-            <th>Sản phẩm</th>
-            <th>Tổng tiền</th>
-            <th>Trạng thái đơn hàng</th>
-          </thead>
-          <tbody>{listOrder ? showListOrder(listOrder) : ""}</tbody>
-        </table>
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={pagination}
+          onChange={handleTableChange}
+        />
       </div>
     </div>
   );
