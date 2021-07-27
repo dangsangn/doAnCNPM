@@ -11,8 +11,8 @@ import {
   USER_REGISTER,
 } from "../constants/user";
 import {
+  getProfileUser,
   getProfileUserSuccess,
-  userLoginSuccess,
   userLogoutSuccess,
 } from "../actions/userAction";
 
@@ -21,11 +21,9 @@ function* loginUserSaga({ payload }) {
   try {
     const res = yield call(userAPI.login, sendData);
     localStorage.setItem("authentication_token", res.data.authentication_token);
-    const { data } = res;
     if (res.status === 200) {
-      yield put(userLoginSuccess(data.email));
+      yield put(getProfileUser());
       yield put(popupLogin(false));
-      toastSucces(`Welcome ${data.email}`);
     } else {
       toastError("Opp! Please try again!");
     }
@@ -59,7 +57,9 @@ function* getProfileUserSaga() {
       const { data } = res;
       yield put(getProfileUserSuccess(res.data));
       toastSucces(`Welcome ${data.email}`);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

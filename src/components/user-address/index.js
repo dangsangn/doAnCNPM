@@ -40,7 +40,9 @@ function UserAddress(props) {
       <h2>Sổ địa chỉ</h2>
       <div className="user-address__container">
         <p className="user-address__name">
-          {userProfile.first_name + " " + userProfile.last_name}{" "}
+          {userProfile.first_name
+            ? userProfile.first_name + " " + userProfile.last_name
+            : userProfile.email}
           <span>
             <i className="fa fa-check-circle-o" aria-hidden="true"></i> Địa chỉ
             mặc định

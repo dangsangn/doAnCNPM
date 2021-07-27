@@ -1,10 +1,10 @@
+import { message } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import { clearIsProductBought } from "../../actions/cartAction";
 import { formatter } from "../../helpers/formatToPriceMoney";
 import * as actionOrder from "./../../actions/order-actions";
-import * as toastMessage from "./../../helpers/toastMessage";
 import CartItem from "./cartItem";
 import "./style.scss";
 
@@ -38,9 +38,13 @@ function Cart(props) {
     dispatch(actionOrder.addOrder(data));
 
     if (data.length > 0) {
-      history.push(`/checkout/payment`);
+      if (userProfile.address) {
+        history.push(`/checkout/payment`);
+      } else {
+        message.warning("Update Address now");
+      }
     } else {
-      toastMessage.toastError("Please choose a product!");
+      message.warning("Please choose a product!");
     }
   };
 
@@ -94,18 +98,33 @@ function Cart(props) {
                       Thay đổi
                     </NavLink>
                   </p>
-                  <p>
-                    <span className="checkout-info__user__name">
-                      {userProfile.first_name + " " + userProfile.last_name}
-                    </span>
-                    <span className="checkout__item__price--separate"></span>
-                    <span className="checkout-info__user__phone">
-                      0822477841
-                    </span>
-                  </p>
-                  <p className="checkout-info__user__address">
-                    {userProfile.address}
-                  </p>
+                  <div>
+                    {userProfile?.first_name ? (
+                      <>
+                        <p>
+                          <span className="checkout-info__user__name">
+                            {userProfile.first_name +
+                              " " +
+                              userProfile.last_name}
+                          </span>
+                          <span className="checkout__item__price--separate"></span>
+                          <span className="checkout-info__user__phone">
+                            {userProfile.phone_number}
+                          </span>
+                        </p>
+                        <h3 className="checkout-info__user__address">
+                          {userProfile.address}
+                        </h3>
+                      </>
+                    ) : (
+                      <NavLink
+                        to="/user/account/edit"
+                        className="checkout-info__user__change"
+                      >
+                        Update Address
+                      </NavLink>
+                    )}
+                  </div>
                 </div>
                 <div className="checkout-info__discount">
                   <p>

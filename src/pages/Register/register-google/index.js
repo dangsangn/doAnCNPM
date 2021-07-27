@@ -57,7 +57,7 @@ function RegisterByGoogle() {
           <div className="col-sm-4">
             <GoogleLogin
               clientId="231323238286-k9fopveh3l4a27t609vjvi76gs3tm29t.apps.googleusercontent.com"
-              buttonText="Login with Google"
+              buttonText="Register with Google"
               onSuccess={responseGoogle}
               onFailure={responseGoogle}
             ></GoogleLogin>

@@ -40,7 +40,7 @@ export const userLogoutSuccess = () => {
   };
 };
 
-export const getProfileUser = (data) => {
+export const getProfileUser = () => {
   return {
     type: actionTypes.GET_PROFILE_USER,
   };

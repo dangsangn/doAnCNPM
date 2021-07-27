@@ -63,6 +63,7 @@ function UserProfile(props) {
       phone_number: userProfile.phone_number,
       email: userProfile.email,
       gender: userProfile.gender,
+      address: userProfile.address,
     });
 
     userProfile.date_of_birth &&
@@ -152,7 +153,22 @@ function UserProfile(props) {
               }}
             />
           </Form.Item>
-
+          <Form.Item
+            name="address"
+            label="Address"
+            rules={[
+              {
+                required: true,
+                message: "Please input your address!",
+              },
+            ]}
+          >
+            <Input
+              style={{
+                width: "100%",
+              }}
+            />
+          </Form.Item>
           <Form.Item
             name="gender"
             label="Gender"

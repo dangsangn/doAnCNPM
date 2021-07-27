@@ -23,7 +23,7 @@ function LoginByGoogle() {
       password: res?.googleId,
       //password_confirmation: res.googleId,
     };
-
+    console.log(res);
     dispatch(userLogin(googleresponse));
   };
 

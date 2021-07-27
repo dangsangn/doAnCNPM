@@ -52,7 +52,11 @@ function Menu() {
         </div>
         <div className="title-user__info">
           <p>Tài khoản của</p>
-          <p>{userProfile.first_name + " " + userProfile.last_name}</p>
+          <p>
+            {userProfile.first_name
+              ? userProfile.first_name + " " + userProfile.last_name
+              : userProfile.email}
+          </p>
         </div>
       </div>
       <ul className="nav nav-pills menu-account">{result}</ul>

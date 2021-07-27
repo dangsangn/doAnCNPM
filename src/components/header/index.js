@@ -170,7 +170,9 @@ function Header() {
                       to="/user/account/edit"
                       className="navbar__link navbar__link--bold"
                     >
-                      {user.email}
+                      {user.first_name
+                        ? user.first_name + " " + user.last_name
+                        : user.email}
                     </Link>
                   </li>
                   <li className="navbar__list-item ">
