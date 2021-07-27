@@ -22,11 +22,14 @@ function* loginUserSaga({ payload }) {
     const res = yield call(userAPI.login, sendData);
     localStorage.setItem("authentication_token", res.data.authentication_token);
     const { data } = res;
-    yield put(userLoginSuccess(data.email));
-    yield put(popupLogin(false));
-    toastSucces(`Welcome ${data.email}`);
+    if (res.status === 200) {
+      yield put(userLoginSuccess(data.email));
+      yield put(popupLogin(false));
+      toastSucces(`Welcome ${data.email}`);
+    } else {
+      toastError("Opp! Please try again!");
+    }
   } catch (error) {
-    toastError("Opp! Please try again!");
     console.log(error);
   }
 }
@@ -40,9 +43,10 @@ function* registerUserSaga({ payload }) {
       toastSucces("Register successfully!");
       yield put(popupRegister(false));
       yield put(popupLogin(true));
+    } else {
+      toastError("Opp! Please try again!");
     }
   } catch (error) {
-    toastError("Opp! Please try again!");
     console.log(error);
   }
 }

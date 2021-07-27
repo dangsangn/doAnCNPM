@@ -174,11 +174,15 @@ function UserProfile(props) {
               <label>Day of Bird</label>
             </div>
             <div className="ant-col ant-form-item-label">
-              <DatePicker
-                value={moment(dateOfBirth, dateFormat)}
-                format={dateFormat}
-                onChange={onChange}
-              />
+              {dateOfBirth ? (
+                <DatePicker
+                  value={moment(dateOfBirth, dateFormat)}
+                  format={dateFormat}
+                  onChange={onChange}
+                />
+              ) : (
+                <DatePicker format={dateFormat} onChange={onChange} />
+              )}
             </div>
           </div>
 
