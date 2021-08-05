@@ -16,10 +16,10 @@ function Footer() {
                   <a href="http://">Trung Tâm Trợ Giúp</a>
                 </li>
                 <li className="footer__about-item">
-                  <a href="http://">Shopee Blog</a>
+                  <a href="http://">Shop-Eco Blog</a>
                 </li>
                 <li className="footer__about-item">
-                  <a href="http://">Shopee Mall</a>
+                  <a href="http://">Shop-Eco Mall</a>
                 </li>
                 <li className="footer__about-item">
                   <a href="http://">Hướng Dẫn Mua Hàng</a>
@@ -31,7 +31,7 @@ function Footer() {
                   <a href="http://">Thanh Toán</a>
                 </li>
                 <li className="footer__about-item">
-                  <a href="http://">Shopee Xu</a>
+                  <a href="http://">Shop-Eco Xu</a>
                 </li>
                 <li className="footer__about-item">
                   <a href="http://">Vận Chuyển</a>
@@ -50,19 +50,19 @@ function Footer() {
             <div className="col l-2-4">
               <ul className="footer__about-list">
                 <li className="footer__about-item">
-                  <h3>VỀ SHOPEE</h3>
+                  <h3>VỀ SHOP-ECO</h3>
                 </li>
                 <li className="footer__about-item">
-                  <a href="http://">Giới Thiệu Về Shopee Việt Nam</a>
+                  <a href="http://">Giới Thiệu Về Shop-Eco Việt Nam</a>
                 </li>
                 <li className="footer__about-item">
                   <a href="http://">Tuyển Dụng</a>
                 </li>
                 <li className="footer__about-item">
-                  <a href="http://">Điều Khoản Shopee</a>
+                  <a href="http://">Điều Khoản Shop-Eco</a>
                 </li>
                 <li className="footer__about-item">
-                  <a href="http://">Điều Khoản Shopee</a>
+                  <a href="http://">Điều Khoản Shop-Eco</a>
                 </li>
                 <li className="footer__about-item">
                   <a href="http://">Chính Hãng</a>
@@ -71,7 +71,7 @@ function Footer() {
                   <a href="http://">Kênh Người Bán</a>
                 </li>
                 <li className="footer__about-item">
-                  <a href="http://">Chương Trình Tiếp Thị Liên Kết Shopee</a>
+                  <a href="http://">Chương Trình Tiếp Thị Liên Kết Shop-Eco</a>
                 </li>
                 <li className="footer__about-item">
                   <a href="http://">Liên Hệ Với Truyền Thông</a>
@@ -267,7 +267,7 @@ function Footer() {
             <div className="col l-2-4">
               <ul className="footer__about-list">
                 <li className="footer__about-item">
-                  <h3>TẢI ỨNG DỤNG SHOPEE NGAY THÔI</h3>
+                  <h3>TẢI ỨNG DỤNG SHOP-ECO NGAY THÔI</h3>
                 </li>
                 <div className="row">
                   <div className="col l-6">

@@ -11,11 +11,11 @@ export const addProductToCartApi = (data) => {
 };
 
 export const deleteProductToCartApi = (data) => {
-  const url = "carts";
+  const url = "/carts";
   return authDelete(url, data);
 };
 
 export const updateProductToCartApi = (data) => {
-  const url = "carts";
+  const url = "/carts";
   return authPut(url, data);
 };

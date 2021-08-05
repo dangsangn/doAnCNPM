@@ -71,7 +71,7 @@ function Checkout(props) {
     } else {
       try {
         const res = await orderAPI.postOrder(data);
-
+        console.log(res);
         if (res.data.message === "order has created") {
           dispatch(deleteProductListWhenOrdered());
           dispatch(clearListOrder());

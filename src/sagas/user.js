@@ -25,10 +25,10 @@ function* loginUserSaga({ payload }) {
       yield put(getProfileUser());
       yield put(popupLogin(false));
     } else {
-      toastError("Opp! Please try again!");
     }
   } catch (error) {
     console.log(error);
+    toastError("Opp! Please try again!");
   }
 }
 
@@ -42,9 +42,9 @@ function* registerUserSaga({ payload }) {
       yield put(popupRegister(false));
       yield put(popupLogin(true));
     } else {
-      toastError("Opp! Please try again!");
     }
   } catch (error) {
+    toastError("Opp! Please try again!");
     console.log(error);
   }
 }

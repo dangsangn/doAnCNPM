@@ -11,7 +11,7 @@ function Login(props) {
     dispatch(actionsPopupForm.popupLogin(false));
   };
 
-  const loginComponent = (
+  return (
     <div className="container-dialog" id="login-page" style={{ marginTop: 0 }}>
       <div className="content-dialog" id="login-dialog">
         <div className="row">
@@ -50,7 +50,7 @@ function Login(props) {
                 alt=""
               />
               <div className="content-right__sologan">
-                <h3>Mua sắm tại Tiki</h3>
+                <h3>Mua sắm tại Shop</h3>
                 <p>Siêu ưu đãi mỗi ngày</p>
               </div>
             </div>
@@ -67,9 +67,6 @@ function Login(props) {
       </div>
     </div>
   );
-  let result = loginComponent;
-
-  return result;
 }
 
 export default Login;

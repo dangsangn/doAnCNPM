@@ -205,7 +205,14 @@ function ProductDetail(props) {
                     <div className="shop-extend">
                       <div className="shop-extend__name">
                         <span className="shop-extend__name__img">
-                          <img src={shop_link_image} alt={"shopName"} />
+                          <img
+                            src={
+                              shop_link_image
+                                ? shop_link_image
+                                : "https://img.icons8.com/cotton/2x/shop--v3.png"
+                            }
+                            alt={"shopName"}
+                          />
                         </span>
                         <span className="shop-extend__name__tag">
                           {name_shop}

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { formatter } from "../../helpers/formatToPriceMoney";
 import "./style.css";
 function OrderItem(props) {
   const { id, link_image, name, price, count } = props.data;
@@ -13,9 +14,9 @@ function OrderItem(props) {
         </div>
         <p>{name}</p>
       </td>
-      <td>{price}</td>
+      <td>{formatter.format(price)}</td>
       <td>{count}</td>
-      <td>{price * count}</td>
+      <td>{formatter.format(price * count)}</td>
     </tr>
   );
 }

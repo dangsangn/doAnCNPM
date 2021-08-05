@@ -43,7 +43,7 @@ function ListProductExtend(props) {
       <Swiper
         slidesPerView={5}
         spaceBetween={16}
-        slidesPerGroup={3}
+        slidesPerGroup={1}
         loop={true}
         loopFillGroupWithBlank={true}
         pagination={{

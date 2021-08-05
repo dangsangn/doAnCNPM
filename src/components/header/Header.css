@@ -409,3 +409,22 @@
   color: var(--colorPrimary);
   font-size: 1.4rem;
 }
+
+.navbar__list-item__user button {
+  color: white;
+  background-color: var(--colorPrimary);
+  border-radius: 12px;
+  margin-right: 12px;
+  margin-top: 4px;
+}
+
+.navbar__link.navbar__link--menuItem {
+  background-color: #fff !important;
+  border: none;
+  outline: none;
+  color: #333;
+  font-weight: 400;
+  cursor: pointer;
+  font-size: 1.4rem;
+  padding-left: 0;
+}

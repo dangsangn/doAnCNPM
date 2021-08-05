@@ -13,13 +13,13 @@ function CartItem(props) {
   const [quantityItem, setQuantityItem] = useState(count);
 
   const handelChangeProduct = (value) => {
-    setQuantityItem(quantityItem + value);
     dispatch(
       actionTypesCart.updateProductToCart({
         ...props.data,
         count: count + value,
       })
     );
+    setQuantityItem(count + value);
   };
 
   const handleDeleteProductToCart = () => {
@@ -52,7 +52,7 @@ function CartItem(props) {
             <p className="checkout__item__detail__amount">Chỉ còn 2 sẩn phẩm</p>
             <div className="checkout__item__detail__action">
               <Popconfirm
-                title="Are you sure to delete this task?"
+                title="Are you sure to delete this product?"
                 onConfirm={handleDeleteProductToCart}
                 okText="Yes"
                 cancelText="No"

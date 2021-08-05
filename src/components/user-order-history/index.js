@@ -11,11 +11,30 @@ function UserOrderHistory(props) {
     current: 1,
     pageSize: 4,
   });
+
   useEffect(() => {
     const getListOder = async () => {
       try {
         const res = await orderAPI.getListOrder();
-        setListOrder(res.data.orders);
+        console.log(res);
+        res.data.orders.forEach((item) => {
+          item.products.length > 0 &&
+            item.products.forEach((product, index) => {
+              setListOrder((pre) => {
+                return [
+                  {
+                    key: (index + 1) * Math.random(),
+                    name: { id: product.id, text: product.name },
+                    image: product.link_image,
+                    totalPrice: product.price * product.count,
+                    dateOder: item.created_at,
+                    status: item.order_status,
+                  },
+                  ...pre,
+                ];
+              });
+            });
+        });
       } catch (error) {
         console.log(error);
       }
@@ -37,65 +56,64 @@ function UserOrderHistory(props) {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      render: ({ id, text }) => <Link to={id}>{text}</Link>,
+      render: ({ id, text }) => (
+        <Link
+          to={"/productItem/" + id}
+          style={{ width: "300px", display: "flex" }}
+        >
+          {text}
+        </Link>
+      ),
     },
     {
       title: "Image",
-      dataIndex: "iamge",
-      key: "age",
+      dataIndex: "image",
+      key: "image",
       render: (url) => {
-        return <img src={url} alt="img" />;
+        return <img style={{ width: "100px" }} src={url} alt="img" />;
       },
     },
     {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
+      title: "Total Price",
+      dataIndex: "totalPrice",
+      key: "totalPrice",
       render: (price) => {
-        return <p>{formatter.format(price)}</p>;
+        return <p style={{ margin: 0 }}>{formatter.format(price)}</p>;
       },
     },
-  ];
-
-  const data = [
     {
-      key: "1",
-      name: { id: 1, text: "abc" },
-      image: 32,
-      price: 1000,
+      title: "Date order",
+      dataIndex: "dateOder",
+      key: "dateOder",
     },
     {
-      key: "1",
-      name: { id: 1, text: "abc" },
-      image: 32,
-      price: 1000,
-    },
-    {
-      key: "1",
-      name: { id: 1, text: "abc" },
-      image: 32,
-      price: 1000,
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
     },
   ];
 
-  useEffect(() => {
-    const fetchListOrderAPI = async () => {
-      try {
-        const response = await orderAPI.get();
-        setListOrder(response.orders);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchListOrderAPI();
-  }, []);
+  // const data = listOrder.forEach((item) => {
+  //   item.products.length > 0 &&
+  //     item.products.map((product, index) => {
+  //       return {
+  //         key: (index + 1) * Math.random(),
+  //         name: { id: product.id, text: product.name },
+  //         image: product.link_image,
+  //         totalPrice: product.product * product.count,
+  //         dateOder: item.created_at,
+  //         status: item.order_status,
+  //       };
+  //     });
+  // });
+
   return (
     <div className="user-order-history">
       <h2>Đơn hàng của tôi</h2>
       <div className="user-order-history__container">
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={listOrder}
           pagination={pagination}
           onChange={handleTableChange}
         />

@@ -123,6 +123,7 @@ img {
 .btn-primary {
   color: #fff;
   background-color: var(--colorPrimary);
+  padding: 8px 12px;
 }
 
 .btn-primary:hover {

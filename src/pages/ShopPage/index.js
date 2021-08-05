@@ -18,6 +18,8 @@ function ShopPage(props) {
     dispatch(getInfoShop(params.shopId, 0));
     // eslint-disable-next-line
   }, [dispatch]);
+
+  console.log(shop);
   return (
     <div className="shop-page">
       <Container>

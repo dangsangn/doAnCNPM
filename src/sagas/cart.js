@@ -54,10 +54,11 @@ function* updateProductToCartSaga({ payload }) {
 }
 
 function* deleteProductSaga({ payload }) {
+  const dataSend = {
+    product_id: [payload.data + ""],
+  };
   try {
-    const res = yield call(deleteProductToCartApi, {
-      product_id: payload.data,
-    });
+    const res = yield call(deleteProductToCartApi, dataSend);
     console.log(res);
     yield put(deleteProductToCartSuccess(payload.data));
   } catch (error) {

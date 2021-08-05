@@ -6,6 +6,7 @@ import { categoryAPI } from "../../api/categoryAPI";
 import FormSearch from "../FormSearch";
 import Notification from "../Notification";
 import * as actionsPopupForm from "./../../actions/popup-form";
+import { Menu, Dropdown, Button } from "antd";
 import "./Header.css";
 
 function showMiniCart(list) {
@@ -51,6 +52,27 @@ function Header() {
     fetchCategoriesAPI();
   }, []);
 
+  const menu = (
+    <Menu>
+      <Menu.Item key={1}>
+        <Link
+          to="/user/account/edit"
+          className="navbar__link navbar__link--menuItem"
+        >
+          Profile
+        </Link>
+      </Menu.Item>
+      <Menu.Item key={2}>
+        <button
+          onClick={handleLogout}
+          className="navbar__link navbar__link--menuItem"
+        >
+          Đăng xuất
+        </button>
+      </Menu.Item>
+    </Menu>
+  );
+
   const countProductInCart = (list) => {
     return list.reduce((total, item) => {
       return total + item.count;
@@ -92,7 +114,10 @@ function Header() {
         <nav className="navbar">
           <ul className="navbar__list">
             <li className="navbar__list-item navbar__list-item--separated">
-              <a href="#1" className="navbar__link">
+              <a
+                href="https://shopeco-manage.netlify.app"
+                className="navbar__link"
+              >
                 Kênh người bán
               </a>
             </li>
@@ -164,26 +189,14 @@ function Header() {
                   </li>
                 </div>
               ) : (
-                <div>
-                  <li className="navbar__list-item navbar__list-item--separated">
-                    <Link
-                      to="/user/account/edit"
-                      className="navbar__link navbar__link--bold"
-                    >
+                <div className="navbar__list-item__user">
+                  <Dropdown overlay={menu} placement="bottomCenter" arrow>
+                    <Button>
                       {user.first_name
                         ? user.first_name + " " + user.last_name
                         : user.email}
-                    </Link>
-                  </li>
-                  <li className="navbar__list-item ">
-                    <button
-                      id="logout-btn"
-                      onClick={handleLogout}
-                      className="navbar__link navbar__link--bold"
-                    >
-                      Đăng xuất
-                    </button>
-                  </li>
+                    </Button>
+                  </Dropdown>
                 </div>
               )}
             </div>
