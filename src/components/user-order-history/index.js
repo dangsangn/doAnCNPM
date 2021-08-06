@@ -15,26 +15,23 @@ function UserOrderHistory(props) {
   useEffect(() => {
     const getListOder = async () => {
       try {
+        const list = [];
         const res = await orderAPI.getListOrder();
         console.log(res);
         res.data.orders.forEach((item) => {
           item.products.length > 0 &&
             item.products.forEach((product, index) => {
-              setListOrder((pre) => {
-                return [
-                  {
-                    key: (index + 1) * Math.random(),
-                    name: { id: product.id, text: product.name },
-                    image: product.link_image,
-                    totalPrice: product.price * product.count,
-                    dateOder: item.created_at,
-                    status: item.order_status,
-                  },
-                  ...pre,
-                ];
+              list.unshift({
+                key: (index + 1) * Math.random(),
+                name: { id: product.id, text: product.name },
+                image: product.link_image,
+                totalPrice: product.price * product.count,
+                dateOder: item.created_at,
+                status: item.order_status,
               });
             });
         });
+        setListOrder(list);
       } catch (error) {
         console.log(error);
       }
@@ -92,20 +89,6 @@ function UserOrderHistory(props) {
       key: "status",
     },
   ];
-
-  // const data = listOrder.forEach((item) => {
-  //   item.products.length > 0 &&
-  //     item.products.map((product, index) => {
-  //       return {
-  //         key: (index + 1) * Math.random(),
-  //         name: { id: product.id, text: product.name },
-  //         image: product.link_image,
-  //         totalPrice: product.product * product.count,
-  //         dateOder: item.created_at,
-  //         status: item.order_status,
-  //       };
-  //     });
-  // });
 
   return (
     <div className="user-order-history">

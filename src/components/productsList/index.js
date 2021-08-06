@@ -19,7 +19,7 @@ const override = css`
 function showProducts(productsList) {
   return productsList.map((item) => {
     return (
-      <div className="col l-2-4" key={item.id}>
+      <div className="col l-2-4" key={(item.id + 1) * Math.random()}>
         <ProductItem
           id={item.id}
           title={item.name}

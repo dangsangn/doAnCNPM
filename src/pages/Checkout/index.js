@@ -55,7 +55,7 @@ function Checkout(props) {
 
   async function handleSubmitOrder() {
     const product_ids = orderList.map((item) => {
-      return { id: item.id, count: item.count };
+      return { id: item.id + "", count: item.count + "" };
     });
     const fullName = userProfile.first_name + " " + userProfile.last_name;
     const data = {
@@ -64,12 +64,14 @@ function Checkout(props) {
       address: userProfile.address,
       pay_method_name: typePayment,
       product_ids: product_ids,
+      voucher_ids: [2],
     };
 
     if (!typePayment) {
       message.warning("Please choose a payment method!");
     } else {
       try {
+        console.log(data);
         const res = await orderAPI.postOrder(data);
         console.log(res);
         if (res.data.message === "order has created") {
