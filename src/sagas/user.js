@@ -20,11 +20,13 @@ function* loginUserSaga({ payload }) {
   const sendData = payload.data;
   try {
     const res = yield call(userAPI.login, sendData);
+    console.log(res);
     localStorage.setItem("authentication_token", res.data.authentication_token);
     if (res.status === 200) {
       yield put(getProfileUser());
       yield put(popupLogin(false));
     } else {
+      toastError("Opp! Please try again!");
     }
   } catch (error) {
     console.log(error);
@@ -42,9 +44,9 @@ function* registerUserSaga({ payload }) {
       yield put(popupRegister(false));
       yield put(popupLogin(true));
     } else {
+      toastError("Opp! Please try again!");
     }
   } catch (error) {
-    toastError("Opp! Please try again!");
     console.log(error);
   }
 }

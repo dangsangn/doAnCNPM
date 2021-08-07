@@ -34,6 +34,8 @@ function Checkout(props) {
   const [typePayment, setTypePayment] = useState();
   const history = useHistory();
   const dispatch = useDispatch();
+  const [numberCard, setNumberCard] = useState("");
+  const [nameBank, setNameBank] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
@@ -49,7 +51,8 @@ function Checkout(props) {
   };
 
   const onFinish = (values) => {
-    console.log("Success:", values);
+    setNameBank(values.nameBank);
+    setNumberCard(values.numberCard);
     setIsModalVisible(false);
   };
 
@@ -66,14 +69,15 @@ function Checkout(props) {
       product_ids: product_ids,
       voucher_ids: [2],
     };
-
+    if (data.pay_method_name === "Thẻ tính dụng") {
+      data.name_bank = nameBank;
+      data.number_card = numberCard;
+    }
     if (!typePayment) {
       message.warning("Please choose a payment method!");
     } else {
       try {
-        console.log(data);
         const res = await orderAPI.postOrder(data);
-        console.log(res);
         if (res.data.message === "order has created") {
           dispatch(deleteProductListWhenOrdered());
           dispatch(clearListOrder());
@@ -134,7 +138,7 @@ function Checkout(props) {
               <div className="order__paymemnt__type">
                 <input
                   type="radio"
-                  id="tienmat"
+                  id="payment"
                   name="typePayment"
                   value="Thanh toán khi nhận hàng"
                   onChange={(event) => setTypePayment(event.target.value)}
@@ -146,7 +150,7 @@ function Checkout(props) {
                   type="radio"
                   id="the"
                   name="typePayment"
-                  value="Thẻ tín dụng"
+                  value="Thẻ tính dụng"
                   onChange={(event) => setTypePayment(event.target.value)}
                   onClick={showModal}
                 />
@@ -161,7 +165,7 @@ function Checkout(props) {
                   footer={""}
                 >
                   <Form
-                    name="basic"
+                    name="paymentByCard"
                     labelCol={{ span: 8 }}
                     wrapperCol={{ span: 16 }}
                     initialValues={{ remember: true }}

@@ -10,6 +10,7 @@ function ProductDiscountList() {
     let fetchProductsDiscountAPI = async () => {
       try {
         const response = await productApi.getProductsDiscount("page=0");
+
         setProducts(response.products);
       } catch (error) {
         console.error(error);
@@ -22,7 +23,11 @@ function ProductDiscountList() {
       <h2 className="price-suprice__header">
         Gía sốc <i className="fa fa-bolt" aria-hidden="true"></i> hôm nay
       </h2>
-      {!products ? <Loading /> : <ListProductExtend data={products} />}
+      {!products ? (
+        <Loading />
+      ) : (
+        <ListProductExtend data={products.slice(0, 10)} />
+      )}
     </div>
   );
 }
