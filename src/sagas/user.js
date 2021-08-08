@@ -30,7 +30,7 @@ function* loginUserSaga({ payload }) {
     }
   } catch (error) {
     console.log(error);
-    toastError("Opp! Please try again!");
+    // toastError("Opp! Please try again!");
   }
 }
 
