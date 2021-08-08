@@ -69,7 +69,7 @@ function Checkout(props) {
       product_ids: product_ids,
       voucher_ids: [2],
     };
-    if (data.pay_method_name === "Thẻ tính dụng") {
+    if (typePayment === "Thẻ tính dụng") {
       data.name_bank = nameBank;
       data.number_card = numberCard;
     }
@@ -138,7 +138,7 @@ function Checkout(props) {
               <div className="order__paymemnt__type">
                 <input
                   type="radio"
-                  id="payment"
+                  id="tienmat"
                   name="typePayment"
                   value="Thanh toán khi nhận hàng"
                   onChange={(event) => setTypePayment(event.target.value)}
