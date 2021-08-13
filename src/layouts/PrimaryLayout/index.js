@@ -6,7 +6,7 @@ function PrimaryLayout({ component: Component, role, ...props }) {
       {...props}
       render={(routerProps) => (
         <>
-          <div className="main">
+          <div style={{ paddingTop: "24px" }} className="main">
             <Component {...routerProps} />
           </div>
         </>

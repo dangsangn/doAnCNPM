@@ -1,12 +1,14 @@
 import React from "react";
 import Category from "../../components/categorys";
-import ProductList from "../../components/productsList";
-import ProductDiscountList from "./../../components/productDiscoutList";
 import SlideBar from "./../../components/slideBar";
+import ProductDiscountList from "./productDiscoutList";
+import ProductNewList from "./productNewList/ProductNewList";
+import ProductList from "./productRatingList";
+import "./style.scss";
 
 function HomePage(props) {
   return (
-    <div>
+    <div className="home-page">
       <div className="slide-bar">
         <div className="grid wide">
           <div className="row">
@@ -53,6 +55,7 @@ function HomePage(props) {
           </div>
         </div>
 
+        <ProductNewList />
         <div className="product-list">
           <div className="product-list__header">
             <h2 className="product-list__header-title">GỢI Ý HÔM NAY</h2>

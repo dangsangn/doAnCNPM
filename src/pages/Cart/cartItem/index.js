@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import * as actionTypesCart from "../../../actions/cartAction";
 import { Popconfirm } from "antd";
@@ -10,16 +10,20 @@ function CartItem(props) {
   const dispatch = useDispatch();
   const { id, name, price, link_image, count } = props.data;
   const [checkBought, setCheckBought] = useState(false);
-  const [quantityItem, setQuantityItem] = useState(count);
+  const [quantityItem, setQuantityItem] = useState();
+
+  useEffect(() => {
+    setQuantityItem(count);
+  }, [count]);
 
   const handelChangeProduct = (value) => {
     dispatch(
       actionTypesCart.updateProductToCart({
         ...props.data,
-        count: count + value,
+        quantity: quantityItem + value,
       })
     );
-    setQuantityItem(count + value);
+    setQuantityItem(quantityItem + value);
   };
 
   const handleDeleteProductToCart = () => {
@@ -40,16 +44,19 @@ function CartItem(props) {
     <div className="checkout__item">
       <div className="row">
         <div className="col l-2">
-          <Link to={"/"} className="checkout__item__link">
+          <Link to={"/productItem/" + id} className="checkout__item__link">
             <img src={link_image} alt={name} />
           </Link>
         </div>
         <div className="col l-6">
           <div className="checkout__item__detail">
-            <a className="checkout__item__detail__name" href="#1">
+            <Link
+              to={"/productItem/" + id}
+              className="checkout__item__detail__name"
+            >
               {name}
-            </a>
-            <p className="checkout__item__detail__amount">Chỉ còn 2 sẩn phẩm</p>
+            </Link>
+
             <div className="checkout__item__detail__action">
               <Popconfirm
                 title="Are you sure to delete this product?"

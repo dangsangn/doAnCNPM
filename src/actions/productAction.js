@@ -9,6 +9,15 @@ export const fetchProductsList = (products) => {
   };
 };
 
+export const addProductsList = (products) => {
+  return {
+    type: actionTypes.ADD_PRODUCTS_LIST,
+    payload: {
+      products,
+    },
+  };
+};
+
 export const getProductsByKeySearch = () => {
   return {
     type: actionTypes.GET_PRODUCT_BY_KEY_SEARCH,

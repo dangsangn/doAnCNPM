@@ -19,11 +19,18 @@ import history from "./utils/history";
 function App() {
   const popupForm = useSelector((state) => state.popupForm);
   const dispatch = useDispatch();
+  const token = localStorage.getItem("authentication_token");
 
   useEffect(() => {
-    dispatch(getProfileUser());
-    dispatch(getListCart());
-  }, [dispatch]);
+    try {
+      if (token) {
+        dispatch(getProfileUser());
+        dispatch(getListCart());
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch, token]);
 
   const showRouterPrimary = (routers) => {
     return routers.map((router) => {
@@ -59,11 +66,11 @@ function App() {
         {showRouterProfile(profileRouters)}
       </Switch>
       <ButtonToTop />
+      <ScrollToTop />
       <Footer />
       {popupForm.isPopupLogin && <LoginPage />}
       {popupForm.isPopupRes && <RegisterPage />}
       <ToastContainer />
-      <ScrollToTop />
     </Router>
   );
 }

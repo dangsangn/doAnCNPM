@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Button, FormGroup } from "reactstrap";
-import productApi from "../../api/productAPI";
-import ProductItem from "../productItem";
+import productApi from "../../../api/productAPI";
+import ProductItem from "../../../components/productItem";
 import queryString from "query-string";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductsList } from "../../actions/productAction";
+import {
+  addProductsList,
+  fetchProductsList,
+} from "../../../actions/productAction";
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/HashLoader";
-import Loading from "../loading";
+import Loading from "../../../components/loading";
 
 const override = css`
   display: block;
@@ -20,21 +23,13 @@ function showProducts(productsList) {
   return productsList.map((item) => {
     return (
       <div className="col l-2-4" key={(item.id + 1) * Math.random()}>
-        <ProductItem
-          id={item.id}
-          title={item.name}
-          price={item.price}
-          description={item.name}
-          discount={50}
-          image={item.link_image}
-          rating={5}
-        />
+        <ProductItem data={item} />
       </div>
     );
   });
 }
 
-function ProductList() {
+function ProductRatingList() {
   const productsStore = useSelector((state) => state.products.listProduct);
   const dispatch = useDispatch();
   const [panigation, setPagination] = useState({
@@ -49,8 +44,11 @@ function ProductList() {
     let fetchProductListApi = async () => {
       try {
         const response = await productApi.getProducts(params);
-        dispatch(fetchProductsList(response.products));
-        localStorage.setItem("pageNumber", response.page);
+        if (panigation.page === 0) {
+          dispatch(fetchProductsList(response.products));
+        } else {
+          dispatch(addProductsList(response.products));
+        }
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -62,9 +60,8 @@ function ProductList() {
 
   function handleAddProductList() {
     setLoading(true);
-    setPagination({
-      ...panigation,
-      page: +localStorage.getItem("pageNumber") + 1,
+    setPagination((pre) => {
+      return { ...panigation, page: pre + 1 };
     });
   }
 
@@ -96,4 +93,4 @@ function ProductList() {
   );
 }
 
-export default ProductList;
+export default ProductRatingList;

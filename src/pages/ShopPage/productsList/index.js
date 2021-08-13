@@ -1,9 +1,9 @@
 import React from "react";
-import ProductItem from "../productItem";
+import ProductItem from "../../../components/productItem";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useSelector } from "react-redux";
-import Loading from "../../components/loading";
+import Loading from "../../../components/loading";
 
 function showProducts(productsList, xl) {
   let result = null;
@@ -11,15 +11,7 @@ function showProducts(productsList, xl) {
     result = productsList.map((item) => {
       return (
         <Col xl={xl} key={item.id}>
-          <ProductItem
-            id={item.id}
-            title={item.name}
-            price={item.price}
-            description={item.name}
-            discount={50}
-            image={item.link_image}
-            rating={5}
-          />
+          <ProductItem data={item} />
         </Col>
       );
     });
@@ -29,6 +21,7 @@ function showProducts(productsList, xl) {
 
 function ProductList(props) {
   const { productsList, xl } = props;
+
   const showLoading = useSelector((state) => state.ui.showLoading);
 
   return (

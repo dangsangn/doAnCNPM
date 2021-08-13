@@ -22,8 +22,9 @@ function* addProductToCartSaga({ payload }) {
   try {
     const res = yield call(addProductToCartApi, {
       product_id: payload.data.id,
-      count: payload.data.count,
+      count: payload.data.quantity,
     });
+    console.log(res);
     if (res.status === 200) {
       yield put(addProductToCartSuccess(payload.data));
     }
@@ -43,11 +44,11 @@ function* getListCartSaga() {
 
 function* updateProductToCartSaga({ payload }) {
   try {
-    const res = yield call(updateProductToCartApi, {
+    yield call(updateProductToCartApi, {
       product_id: payload.data.id,
-      count: payload.data.count,
+      count: payload.data.quantity,
     });
-    if (res.status === 200) yield put(updateProductToCartSuccess(payload.data));
+    yield put(updateProductToCartSuccess(payload.data));
   } catch (error) {
     console.log(error);
   }

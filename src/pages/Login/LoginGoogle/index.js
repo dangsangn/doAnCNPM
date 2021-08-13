@@ -24,7 +24,7 @@ function LoginByGoogle() {
       //password_confirmation: res.googleId,
     };
     console.log(res);
-    dispatch(userLogin(googleresponse));
+    googleresponse.username && dispatch(userLogin(googleresponse));
   };
 
   const responseGoogle = (response) => {

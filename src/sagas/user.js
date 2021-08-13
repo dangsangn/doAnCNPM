@@ -1,36 +1,35 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { popupLogin, popupRegister } from "../actions/popup-form";
-import { toastSucces, toastError } from "../helpers/toastMessage";
+import {
+  getProfileUserSuccess,
+  userLogoutSuccess,
+} from "../actions/userAction";
 import userAPI from "../api/userAPI";
-import history from "../utils/history";
-
 import {
   GET_PROFILE_USER,
   USER_LOGIN,
   USER_LOGOUT,
   USER_REGISTER,
 } from "../constants/user";
-import {
-  getProfileUser,
-  getProfileUserSuccess,
-  userLogoutSuccess,
-} from "../actions/userAction";
+import { toastError, toastSucces } from "../helpers/toastMessage";
+import history from "../utils/history";
 
 function* loginUserSaga({ payload }) {
   const sendData = payload.data;
   try {
     const res = yield call(userAPI.login, sendData);
-    console.log(res);
-    localStorage.setItem("authentication_token", res.data.authentication_token);
     if (res.status === 200) {
-      yield put(getProfileUser());
+      localStorage.setItem(
+        "authentication_token",
+        res.data.authentication_token
+      );
       yield put(popupLogin(false));
     } else {
       toastError("Opp! Please try again!");
     }
   } catch (error) {
+    toastError("Opp! Please try again!");
     console.log(error);
-    // toastError("Opp! Please try again!");
   }
 }
 
@@ -48,20 +47,18 @@ function* registerUserSaga({ payload }) {
     }
   } catch (error) {
     console.log(error);
+    toastError("Opp! Please try again!");
   }
 }
 
 function* getProfileUserSaga() {
-  const token = localStorage.getItem("authentication_token");
-  if (token) {
-    try {
-      const res = yield call(userAPI.getProfileUser);
-      const { data } = res;
-      yield put(getProfileUserSuccess(res.data));
-      toastSucces(`Welcome ${data.email}`);
-    } catch (error) {
-      console.log(error);
-    }
+  try {
+    const res = yield call(userAPI.getProfileUser);
+    const { data } = res;
+    yield put(getProfileUserSuccess(data));
+    toastSucces(`Welcome ${data.email}`);
+  } catch (error) {
+    console.log(error);
   }
 }
 

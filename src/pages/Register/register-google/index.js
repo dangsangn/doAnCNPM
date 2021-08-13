@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { popupRegister } from "../../../actions/popup-form";
 import { userLoginSuccess } from "../../../actions/userAction";
 import userAPI from "../../../api/userAPI";
-import { toastError, toastSucces } from "../../../helpers/toastMessage";
+import { toastSucces } from "../../../helpers/toastMessage";
 import "./style.css";
 
 function RegisterByGoogle() {
@@ -42,7 +42,6 @@ function RegisterByGoogle() {
       }
     } catch (error) {
       console.log(error);
-      toastError("Opp! Please try again!");
     }
   };
 

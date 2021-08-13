@@ -12,7 +12,7 @@ const myReducer = (state = initialState, action) => {
     case actionTypes.POPUP_REGISTER_FORM:
       return { ...state, isPopupRes: action.payload.value };
     default:
-      return { ...state };
+      return state;
   }
 };
 

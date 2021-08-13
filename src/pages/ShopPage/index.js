@@ -1,25 +1,24 @@
 import React, { useEffect } from "react";
-import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Form from "react-bootstrap/Form";
-import "./style.scss";
-import ProductListNew from "../../components/productsListNew";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { getInfoShop } from "../../actions/shop";
+import ProductList from "./productsList";
+import "./style.scss";
 
 function ShopPage(props) {
   const params = useParams();
   const shop = useSelector((state) => state.shop);
-  console.log(shop);
+
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getInfoShop(params.shopId, 0));
     // eslint-disable-next-line
   }, [dispatch]);
 
-  console.log(shop);
   return (
     <div className="shop-page">
       <Container>
@@ -43,7 +42,7 @@ function ShopPage(props) {
                   </div>
                 </div>
               </div>
-              <div className="shop-page__menu-area">
+              {/* <div className="shop-page__menu-area">
                 <ul className="shop-page__menu-area__category-shop">
                   <h2>DANH MỤC SHOP</h2>
                   <li className="shop-page__menu-area__category-shop__item">
@@ -91,12 +90,12 @@ function ShopPage(props) {
                     custom
                   />
                 </ul>
-              </div>
+              </div> */}
             </div>
           </Col>
           <Col xl={10}>
             <div className="shop-page__product">
-              <ProductListNew productsList={shop.products} xl={3} />
+              <ProductList productsList={shop.products} xl={3} />
             </div>
           </Col>
         </Row>

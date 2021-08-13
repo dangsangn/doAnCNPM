@@ -24,16 +24,17 @@ const myReducer = (state = initialState, action) => {
       if (indexAdd === -1) {
         state.listCart.unshift(action.payload.data);
       } else {
-        state.listCart[indexAdd].count += action.payload.data.count;
+        state.listCart[indexAdd].count += action.payload.data.quantity;
       }
       return {
         ...state,
       };
+
     case UPDATE_PRODUCT_TO_CART_SUCCESS:
       const indexUpdate = state.listCart.findIndex(
         (item) => item.id === action.payload.data.id
       );
-      state.listCart[indexUpdate].count = action.payload.data.count;
+      state.listCart[indexUpdate].count = action.payload.data.quantity;
       return { ...state };
 
     case DELETE_PRODUCT_TO_CART_SUCCESS:

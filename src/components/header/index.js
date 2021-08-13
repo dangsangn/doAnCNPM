@@ -35,12 +35,7 @@ function Header() {
   const cart = useSelector((state) => state.cart);
   const [categories, setCategories] = useState([]);
 
-  const [height, setHeight] = useState(0);
-
   useEffect(() => {
-    window.onscroll = () => {
-      setHeight(window.pageYOffset);
-    };
     let fetchCategoriesAPI = async () => {
       try {
         const response = await categoryAPI.getAll();
@@ -73,11 +68,6 @@ function Header() {
     </Menu>
   );
 
-  const countProductInCart = (list) => {
-    return list.reduce((total, item) => {
-      return total + item.count;
-    }, 0);
-  };
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -104,12 +94,7 @@ function Header() {
   }
 
   return (
-    <div
-      className="header"
-      style={
-        height > 0 ? { transform: "translateY(-36%)", paddingTop: "16px" } : {}
-      }
-    >
+    <div className="header">
       <div className="grid wide">
         <nav className="navbar">
           <ul className="navbar__list">
@@ -246,7 +231,7 @@ function Header() {
               <div className="header__bottom-cart">
                 <div className="header__bottom-cart__container">
                   <span className="header__bottom-cart__quantity">
-                    {!user.isLogin ? 0 : countProductInCart(cart.listCart)}
+                    {!user.isLogin ? 0 : cart.listCart.length}
                   </span>
                   <button
                     onClick={handleRedirectToCartPage}
@@ -267,7 +252,7 @@ function Header() {
                           Chưa có sản phẩm
                         </p>
                       </div>
-                    ) : countProductInCart(cart.listCart) ? (
+                    ) : cart.listCar?.length > 0 ? (
                       <div className="header__bottom-has-cart">
                         {showMiniCart(cart.listCart)}
                       </div>

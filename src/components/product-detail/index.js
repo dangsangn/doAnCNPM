@@ -1,4 +1,4 @@
-import { Button, message, Modal } from "antd";
+import { Button, message, Modal, Rate } from "antd";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, withRouter } from "react-router";
@@ -7,41 +7,20 @@ import * as cartAction from "./../../actions/cartAction";
 import * as actionsForm from "./../../actions/popup-form";
 import "./product-detail.css";
 
-function showRating(value) {
-  let result = [];
-  for (let i = 0; i < value; i++) {
-    result.push(
-      <i
-        key={Math.random() * (i + 1)}
-        className="fa fa-star"
-        aria-hidden="true"
-      ></i>
-    );
-  }
-  for (let i = value; i < 5; i++) {
-    result.push(
-      <i
-        key={Math.random() * (i + 1)}
-        className="fa fa-star-o"
-        aria-hidden="true"
-      ></i>
-    );
-  }
-  return result;
-}
-
-function ProductDetail(props) {
+function ProductDetail({ dataProduct }) {
   const user = useSelector((state) => state.user);
   const {
     rating,
     name,
+    discount,
     price,
     description,
     link_image,
     name_shop,
     shop_link_image,
     shop_id,
-  } = props.dataProduct;
+    category,
+  } = dataProduct;
   const history = useHistory();
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
@@ -64,8 +43,8 @@ function ProductDetail(props) {
     } else {
       dispatch(
         cartAction.addProductToCart({
-          ...props.dataProduct,
-          count: quantity,
+          ...dataProduct,
+          quantity,
         })
       );
       if (check.toCartPage) {
@@ -98,7 +77,7 @@ function ProductDetail(props) {
               <div className="product__info__header">
                 <div className="product__info__header__left">
                   <p>
-                    Danh mục: <span>category name</span>
+                    Danh mục: <span>{category}</span>
                   </p>
                   <h2>{name}</h2>
                   <Button onClick={showModal}> Detail Info</Button>
@@ -111,7 +90,7 @@ function ProductDetail(props) {
                     <p>{description}</p>
                   </Modal>
                   <div className="product__info__rating">
-                    {showRating(rating)}
+                    {rating > 0 && <Rate allowHalf defaultValue={rating} />}
                   </div>
                 </div>
                 <div className="product__info__header__right">
@@ -126,12 +105,14 @@ function ProductDetail(props) {
                     <div className="product__info__price">
                       <p>
                         <span className="product__info__price--discount">
-                          {formatter.format(price - (price * 50) / 100)}
+                          {formatter.format(price - discount)}
                         </span>
                         <span className="product__info__price--original">
                           {formatter.format(price)}
                         </span>
-                        <span className="product__info__discount">-{50}%</span>
+                        <span className="product__info__discount">
+                          -{Number.parseInt((discount / price) * 100)}%
+                        </span>
                       </p>
                       <a href="http://">
                         Hoàn tiền 15% tối đa 600k/tháng
@@ -222,7 +203,7 @@ function ProductDetail(props) {
                         <div className="col l-6">
                           <div className="shop-extend__container">
                             <p className="shop-extend__container__description">
-                              <span>4.3</span>/<span>5.0</span>
+                              <span>0</span>/<span>0</span>
                               <i className="fa fa-star" aria-hidden="true"></i>
                             </p>
                             <p>{"soldQuantity"}</p>
@@ -241,10 +222,13 @@ function ProductDetail(props) {
                         <div className="col l-6">
                           <div className="shop-extend__container">
                             <p className="shop-extend__container__description">
-                              <span>73</span>
+                              <span>0</span>
                             </p>
                             <p>Theo dõi</p>
-                            <button className="btn shop-extend__btn">
+                            <button
+                              className="btn shop-extend__btn"
+                              disabled={true}
+                            >
                               <i className="fa fa-plus" aria-hidden="true"></i>
                               Theo dõi
                             </button>

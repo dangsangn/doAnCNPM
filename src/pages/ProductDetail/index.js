@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loading from "../../components/loading";
 import ProductDetail from "../../components/product-detail";
-import ProductDiscountList from "../../components/productDiscoutList";
+import ProductDiscountList from "../Home/productDiscoutList";
 import Review from "./review";
 
 function ProductDetailPage(props) {
@@ -46,8 +46,7 @@ function ProductDetailPage(props) {
         <Loading />
       ) : (
         <>
-          {" "}
-          <ProductDetail dataProduct={product} />{" "}
+          <ProductDetail dataProduct={product} />
           <Review dataProduct={product} />
         </>
       )}

@@ -3,14 +3,8 @@ import "./reviewItem.css";
 import { Rate } from "antd";
 import { formatTime } from "../../../../helpers/formatTime";
 
-function showImage(list) {
-  return list.map((item) => {
-    return <img src={item} alt="imagereview" />;
-  });
-}
-
 function ReviewItem(props) {
-  const { comment, photo_urls, create_at, rating, reviewer_name } = props.data;
+  const { comment, create_at, rating, reviewer_name } = props.data;
   return (
     <div className="review__item">
       <div className="row">
@@ -29,13 +23,6 @@ function ReviewItem(props) {
               <Rate disabled value={rating} />
             </div>
             <p className="review__item__desc">{comment}</p>
-            {photo_urls ? (
-              <div className="review__item__content__img">
-                {showImage(photo_urls)}
-              </div>
-            ) : (
-              ""
-            )}
             <p className="review__item__time">{formatTime(create_at)}</p>
           </div>
         </div>

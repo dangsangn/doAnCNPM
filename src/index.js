@@ -10,11 +10,11 @@ import "antd/dist/antd.css";
 
 const store = storeConfigure();
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  //</React.StrictMode>,
   document.getElementById("root")
 );
 
