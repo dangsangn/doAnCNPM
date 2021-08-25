@@ -16,7 +16,7 @@ const myReducer = (state = initialState, action) => {
     case actionTypes.ADD_PRODUCTS_LIST:
       return {
         ...state,
-        listProduct: [state.lisProduct, ...action.payload.products],
+        listProduct: [...state.listProduct, ...action.payload.products],
       };
 
     case actionTypes.GET_PRODUCT_BY_KEY_SEARCH_SUCCESS:

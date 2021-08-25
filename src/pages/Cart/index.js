@@ -28,7 +28,7 @@ function Cart(props) {
   const history = useHistory();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-
+  console.log(cart);
   useEffect(() => {
     dispatch(clearIsProductBought());
   }, [dispatch]);

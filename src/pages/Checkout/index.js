@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
@@ -5,6 +6,7 @@ import { orderAPI } from "../../api/orderAPI";
 import Order from "../../components/order";
 import { formatter } from "../../helpers/formatToPriceMoney";
 import "./style.css";
+// eslint-disable-next-line
 import { message, Steps, Form, Input, Button } from "antd";
 import {
   UserOutlined,
@@ -14,7 +16,7 @@ import {
 } from "@ant-design/icons";
 import { clearListOrder } from "../../actions/order-actions";
 import { deleteProductListWhenOrdered } from "../../actions/cartAction";
-import Modal from "antd/lib/modal/Modal";
+//import Modal from "antd/lib/modal/Modal";
 
 const { Step } = Steps;
 function calTotalMoney(list) {
@@ -31,65 +33,65 @@ function Checkout(props) {
   const orderList = useSelector((state) => state.order);
 
   const userProfile = useSelector((state) => state.user);
-  const [typePayment, setTypePayment] = useState();
+  //const [typePayment, setTypePayment] = useState();
   const history = useHistory();
   const dispatch = useDispatch();
-  const [numberCard, setNumberCard] = useState("");
-  const [nameBank, setNameBank] = useState("");
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  // const [numberCard, setNumberCard] = useState("");
+  // const [nameBank, setNameBank] = useState("");
+  // const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
+  // const showModal = () => {
+  //   setIsModalVisible(true);
+  // };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
+  // const handleOk = () => {
+  //   setIsModalVisible(false);
+  // };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+  // const handleCancel = () => {
+  //   setIsModalVisible(false);
+  // };
 
-  const onFinish = (values) => {
-    setNameBank(values.nameBank);
-    setNumberCard(values.numberCard);
-    setIsModalVisible(false);
-  };
+  // const onFinish = (values) => {
+  //   setNameBank(values.nameBank);
+  //   setNumberCard(values.numberCard);
+  //   setIsModalVisible(false);
+  // };
 
   async function handleSubmitOrder() {
     const product_ids = orderList.map((item) => {
-      return { id: item.id + "", count: item.count + "" };
+      return { id: item.id + "", count_product_cart: item.count + "" };
     });
     const fullName = userProfile.first_name + " " + userProfile.last_name;
     const data = {
       full_name: fullName,
       phone_number: userProfile.phone_number,
       address: userProfile.address,
-      pay_method_name: typePayment,
+      // pay_method_name: typePayment,
       product_ids: product_ids,
       voucher_ids: [2],
     };
-    if (typePayment === "Thẻ tính dụng") {
-      data.name_bank = nameBank;
-      data.number_card = numberCard;
-    }
-    if (!typePayment) {
-      message.warning("Please choose a payment method!");
-    } else {
-      try {
-        const res = await orderAPI.postOrder(data);
-        if (res.data.message === "order has created") {
-          dispatch(deleteProductListWhenOrdered());
-          dispatch(clearListOrder());
-          history.push("/carts/users");
-          message.success("Bạn đã đặt hàng thành công!");
-        } else {
-          message.warning("Oop! Đã xảy ra lỗi");
-        }
-      } catch (error) {
-        console.log(error);
+    // if (typePayment === "Thẻ tính dụng") {
+    //   data.name_bank = nameBank;
+    //   data.number_card = numberCard;
+    // }
+    // if (!typePayment) {
+    //   message.warning("Please choose a payment method!");
+    // } else {
+    try {
+      const res = await orderAPI.postOrder(data);
+      if (res.data.message === "order has created") {
+        dispatch(deleteProductListWhenOrdered());
+        dispatch(clearListOrder());
+        history.push("/carts/users");
+        message.success("Bạn đã đặt hàng thành công!");
+      } else {
+        message.warning("Oop! Đã xảy ra lỗi");
       }
+    } catch (error) {
+      console.log(error);
     }
+    // }
   }
   return (
     <>
@@ -133,7 +135,7 @@ function Checkout(props) {
           </div>
           <Order order={orderList} />
           <div className="order__paymemnt">
-            <div className="order__payment__control">
+            {/* <div className="order__payment__control">
               <h2>Phương thức thanh toán : </h2>
               <div className="order__paymemnt__type">
                 <input
@@ -205,7 +207,7 @@ function Checkout(props) {
                   </Form>
                 </Modal>
               </div>
-            </div>
+            </div> */}
             <div className="order__payment__bill">
               <div className="order__payment__bill__detail">
                 <div className="row">

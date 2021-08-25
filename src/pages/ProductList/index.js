@@ -16,16 +16,7 @@ SwiperCore.use([Autoplay, Pagination, Navigation]);
 function showProductList(products) {
   return products.map((item) => (
     <div key={item.id} className="col l-2-4">
-      <ProductItem
-        id={item.id}
-        title={item.name}
-        price={item.price}
-        description={item.name}
-        discount={50}
-        image={item.link_image}
-        rating={4}
-        soldQuantity={item.count}
-      />
+      <ProductItem data={item} />
     </div>
   ));
 }
@@ -121,7 +112,7 @@ function ProducListCategory(props) {
 
   return (
     <div className="product-list">
-      <div className="grid wide" style={{ marginTop: "150px" }}>
+      <div className="grid wide">
         <div className="row">
           <div className="col l-12">
             <Swiper

@@ -61,7 +61,7 @@ function ProductRatingList() {
   function handleAddProductList() {
     setLoading(true);
     setPagination((pre) => {
-      return { ...panigation, page: pre + 1 };
+      return { page: pre.page + 1 };
     });
   }
 

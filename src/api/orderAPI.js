@@ -1,4 +1,4 @@
-import { authGet, authPost } from "./axiosClient2";
+import { authGet, authPatch, authPost } from "./axiosClient2";
 
 export const orderAPI = {
   getListOrder: () => {
@@ -12,5 +12,9 @@ export const orderAPI = {
   getOrderDetail: (id) => {
     const url = `/orders/${id}`;
     return authGet(url);
+  },
+  cancelOrder: (id) => {
+    const url = `/users/orders/${id}`;
+    return authPatch(url);
   },
 };

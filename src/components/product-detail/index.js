@@ -9,6 +9,7 @@ import "./product-detail.css";
 
 function ProductDetail({ dataProduct }) {
   const user = useSelector((state) => state.user);
+
   const {
     rating,
     name,

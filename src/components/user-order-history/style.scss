@@ -1,0 +1,48 @@
+.user-order-history {
+  h2 {
+    margin-bottom: 16px;
+  }
+  &__container {
+    background-color: #fff;
+  }
+  &__table {
+    border-collapse: collapse;
+    width: 100%;
+    &__info {
+      background-color: #dddddd;
+      div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+      .btn--cancel-oder {
+        background-color: #017efd;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 8px;
+        border: 2px solid;
+        &:focus {
+          outline: none;
+          border-color: #1979d8;
+        }
+      }
+    }
+    &__img {
+      width: 100px;
+      img {
+        object-fit: revert;
+      }
+    }
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    tr:hover {
+      background-color: #e9f4ff;
+      cursor: pointer;
+    }
+  }
+}

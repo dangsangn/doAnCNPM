@@ -1,6 +1,6 @@
 .swiper-container {
   width: 100%;
-  height: 100%;
+  //height: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -27,16 +27,29 @@
 .swiper-slide img {
   display: block;
   width: 100%;
-  height: 100%;
   object-fit: cover;
 }
 
 .product-new-list {
   margin-top: 32px;
   &__sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 8px;
+    border: 1px solid rgb(224, 224, 224);
     .swiper-button-prev,
     .swiper-button-next {
       display: none;
+    }
+  }
+
+  &__img {
+    margin-top: 8px;
+    flex-grow: 1;
+    img {
+      height: 100%;
     }
   }
   &__title {
@@ -58,11 +71,13 @@
   &__content {
     .swiper-wrapper {
       flex-direction: row !important;
+      margin-bottom: -12px;
     }
     .swiper-slide {
       margin-top: 0 !important;
       margin-bottom: 12px;
       height: calc((100% - 30px) / 2);
+      padding: 1px;
       .productItem {
         margin-top: 0;
         &__description {

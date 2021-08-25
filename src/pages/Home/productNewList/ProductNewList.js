@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import "./style.scss";
-import Sidebar1 from "../../../assets/images/imgBannerNewProducts/3a9076c95defe0361d01d7812eabdb63.png";
-import Sidebar2 from "../../../assets/images/imgBannerNewProducts/22de50c82900b12513446817b281b2ae.png";
-import Sidebar3 from "../../../assets/images/imgBannerNewProducts/a03e31017ad060376d44c71722a89521.jpg";
-import Sidebar4 from "../../../assets/images/imgBannerNewProducts/bccdc6d5ba2b627f00cd21ce12c6f20c.png";
-import Sidebar5 from "../../../assets/images/imgBannerNewProducts/e1a9a72d05041ecf7bd59ba64386a65f.png";
-
+import "swiper/components/navigation/navigation.min.css";
+import "swiper/components/pagination/pagination.min.css";
+// import Swiper core and required modules
+import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper/core";
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/swiper.min.css";
-import "swiper/components/pagination/pagination.min.css";
-import "swiper/components/navigation/navigation.min.css";
-// import Swiper core and required modules
-import SwiperCore, { Autoplay, Pagination, Navigation } from "swiper/core";
 import productApi from "../../../api/productAPI";
+import Sidebar2 from "../../../assets/images/imgBannerNewProducts/22de50c82900b12513446817b281b2ae.png";
+import Sidebar1 from "../../../assets/images/imgBannerNewProducts/3a9076c95defe0361d01d7812eabdb63.png";
+import Sidebar3 from "../../../assets/images/imgBannerNewProducts/a03e31017ad060376d44c71722a89521.jpg";
+import SmallSibar from "../../../assets/images/imgBannerNewProducts/banerSmall.jpg";
+import Sidebar4 from "../../../assets/images/imgBannerNewProducts/bccdc6d5ba2b627f00cd21ce12c6f20c.png";
+import Sidebar5 from "../../../assets/images/imgBannerNewProducts/e1a9a72d05041ecf7bd59ba64386a65f.png";
 import ProductItem from "../../../components/productItem";
+import "./style.scss";
+
 SwiperCore.use([Autoplay, Pagination, Navigation]);
 
 const ProductNewList = () => {
@@ -37,7 +38,6 @@ const ProductNewList = () => {
         <div className="col l-4">
           <div className="product-new-list__sidebar">
             <Swiper
-              spaceBetween={30}
               centeredSlides={true}
               autoplay={{
                 delay: 2500,
@@ -57,6 +57,10 @@ const ProductNewList = () => {
                 )
               )}
             </Swiper>
+
+            <div className="product-new-list__img">
+              <img src={SmallSibar} alt="img sibar" />
+            </div>
           </div>
         </div>
         <div className="col l-8">

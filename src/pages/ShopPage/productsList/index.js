@@ -21,7 +21,7 @@ function showProducts(productsList, xl) {
 
 function ProductList(props) {
   const { productsList, xl } = props;
-
+  console.log(productsList);
   const showLoading = useSelector((state) => state.ui.showLoading);
 
   return (
