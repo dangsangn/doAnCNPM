@@ -43,16 +43,20 @@ function ProductDetail({ dataProduct }) {
     if (!user.isLogin) {
       dispatch(actionsForm.popupLogin(true));
     } else {
-      dispatch(
-        cartAction.addProductToCart({
-          ...dataProduct,
-          quantity,
-        })
-      );
-      if (check.toCartPage) {
-        history.push("/carts/users");
+      if (count < 1) {
+        message.error("Sản phẩm hiện tại đã hết!");
       } else {
-        message.success("Add product to cart succes");
+        dispatch(
+          cartAction.addProductToCart({
+            ...dataProduct,
+            quantity,
+          })
+        );
+        if (check.toCartPage) {
+          history.push("/carts/users");
+        } else {
+          message.success("Add product to cart succes");
+        }
       }
     }
   };
@@ -163,6 +167,7 @@ function ProductDetail({ dataProduct }) {
                         <button
                           className="checkout__item__action__btn-decrease"
                           onClick={() => handleChangQuantity(+1)}
+                          disabled={quantity === count ? true : false}
                         >
                           +
                         </button>
@@ -175,6 +180,12 @@ function ProductDetail({ dataProduct }) {
                         onClick={() =>
                           handleAddProductToCart({ toCartPage: true })
                         }
+                        disabled={count === 0 && true}
+                        style={
+                          count === 0
+                            ? { cursor: "not-allowed" }
+                            : { cursor: "pointer" }
+                        }
                       >
                         Mua ngay
                       </button>
@@ -182,6 +193,12 @@ function ProductDetail({ dataProduct }) {
                         className="btn btn-pay-later"
                         onClick={() =>
                           handleAddProductToCart({ toCartPage: false })
+                        }
+                        disabled={count === 0 && true}
+                        style={
+                          count === 0
+                            ? { cursor: "not-allowed" }
+                            : { cursor: "pointer" }
                         }
                       >
                         Thêm vào giỏ hàng

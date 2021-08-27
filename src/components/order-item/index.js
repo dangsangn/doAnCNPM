@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { formatter } from "../../helpers/formatToPriceMoney";
 import "./style.css";
 function OrderItem(props) {
-  const { id, link_image, name, price, count } = props.data;
+  const { id, link_image, name, price, quantity } = props.data;
   return (
     <tr className="order__item">
       <td className="order__item__product-name">
@@ -15,8 +15,8 @@ function OrderItem(props) {
         <p>{name}</p>
       </td>
       <td>{formatter.format(price)}</td>
-      <td>{count}</td>
-      <td>{formatter.format(price * count)}</td>
+      <td>{quantity}</td>
+      <td>{formatter.format(price * quantity)}</td>
     </tr>
   );
 }

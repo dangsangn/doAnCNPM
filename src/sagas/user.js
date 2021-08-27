@@ -55,6 +55,7 @@ function* getProfileUserSaga() {
   try {
     const res = yield call(userAPI.getProfileUser);
     const { data } = res;
+    console.log(data);
     yield put(getProfileUserSuccess(data));
     toastSucces(`Welcome ${data.email}`);
   } catch (error) {

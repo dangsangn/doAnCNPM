@@ -17,7 +17,7 @@ function totalPrice(listCart) {
   if (listCart.length > 0) {
     result = listCart.reduce((sum, item) => {
       if (!item.isBought) return sum;
-      return sum + item.price * item.count;
+      return sum + item.price * item.quantity;
     }, 0);
   }
   return result;

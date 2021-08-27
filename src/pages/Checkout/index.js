@@ -23,7 +23,7 @@ function calTotalMoney(list) {
   let result = 0;
   if (list.length > 0) {
     result = list.reduce((sum, item) => {
-      return sum + item.price * item.count;
+      return sum + item.price * item.quantity;
     }, 0);
   }
   return result;
@@ -60,7 +60,7 @@ function Checkout(props) {
 
   async function handleSubmitOrder() {
     const product_ids = orderList.map((item) => {
-      return { id: item.id + "", count_product_cart: item.count + "" };
+      return { id: item.id + "", count_product_cart: item.quantity + "" };
     });
     const fullName = userProfile.first_name + " " + userProfile.last_name;
     const data = {
