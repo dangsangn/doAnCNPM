@@ -8,13 +8,13 @@ import { formatter } from "../../../helpers/formatToPriceMoney";
 
 function CartItem(props) {
   const dispatch = useDispatch();
-  const { id, name, price, link_image, count } = props.data;
+  const { id, name, price, link_image, quantity } = props.data;
   const [checkBought, setCheckBought] = useState(false);
   const [quantityItem, setQuantityItem] = useState();
 
   useEffect(() => {
-    setQuantityItem(count);
-  }, [count]);
+    setQuantityItem(quantity);
+  }, [quantity]);
 
   const handelChangeProduct = (value) => {
     dispatch(

@@ -24,7 +24,6 @@ function* addProductToCartSaga({ payload }) {
       product_id: payload.data.id,
       count: payload.data.quantity,
     });
-    console.log(res);
     if (res.status === 200) {
       yield put(addProductToCartSuccess(payload.data));
     }

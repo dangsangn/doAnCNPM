@@ -252,8 +252,11 @@ function Header() {
                           Chưa có sản phẩm
                         </p>
                       </div>
-                    ) : cart.listCar?.length > 0 ? (
-                      <div className="header__bottom-has-cart">
+                    ) : cart.listCart?.length > 0 ? (
+                      <div
+                        className="header__bottom-has-cart"
+                        onClick={() => history.push("/carts/users")}
+                      >
                         {showMiniCart(cart.listCart)}
                       </div>
                     ) : (

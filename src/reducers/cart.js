@@ -15,7 +15,10 @@ const initialState = {
 const myReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_LIST_CART_SUCCESS:
-      return { ...state, listCart: action.payload.data };
+      let getListCart = action.payload.data.map((item) => {
+        return { ...item, quantity: item.count };
+      });
+      return { ...state, listCart: [...getListCart] };
 
     case ADD_PRODUCT_TO_CART_SUCCESS:
       const indexAdd = state.listCart.findIndex(
@@ -24,7 +27,7 @@ const myReducer = (state = initialState, action) => {
       if (indexAdd === -1) {
         state.listCart.unshift(action.payload.data);
       } else {
-        state.listCart[indexAdd].count += action.payload.data.quantity;
+        state.listCart[indexAdd].quantity += action.payload.data.quantity;
       }
       return {
         ...state,
@@ -34,7 +37,7 @@ const myReducer = (state = initialState, action) => {
       const indexUpdate = state.listCart.findIndex(
         (item) => item.id === action.payload.data.id
       );
-      state.listCart[indexUpdate].count = action.payload.data.quantity;
+      state.listCart[indexUpdate].quantity = action.payload.data.quantity;
       return { ...state };
 
     case DELETE_PRODUCT_TO_CART_SUCCESS:

@@ -9,7 +9,6 @@ import "./product-detail.css";
 
 function ProductDetail({ dataProduct }) {
   const user = useSelector((state) => state.user);
-
   const {
     rating,
     name,
@@ -21,6 +20,8 @@ function ProductDetail({ dataProduct }) {
     shop_link_image,
     shop_id,
     category,
+    count,
+    rating_shop,
   } = dataProduct;
   const history = useHistory();
   const dispatch = useDispatch();
@@ -57,7 +58,11 @@ function ProductDetail({ dataProduct }) {
   };
 
   const handleChangQuantity = (value) => {
-    setQuantity(quantity + value);
+    if (value + quantity > count) {
+      message.error("Sản phẩm hiện tại không đủ!");
+    } else {
+      setQuantity(quantity + value);
+    }
   };
 
   const handleToPageShop = () => {
@@ -124,9 +129,9 @@ function ProductDetail({ dataProduct }) {
                       </a>
                     </div>
                     <div className="product__info__vourcher">
-                      <h3>1 Mã giảm giá</h3>
+                      <h3>Số sản phẩm đang còn</h3>
                       <span className="product__info__vourcher__tag">
-                        Giảm 5%
+                        {count}
                       </span>
                     </div>
                     <p className="product__info__link">
@@ -204,7 +209,10 @@ function ProductDetail({ dataProduct }) {
                         <div className="col l-6">
                           <div className="shop-extend__container">
                             <p className="shop-extend__container__description">
-                              <span>0</span>/<span>0</span>
+                              <span>
+                                {Number.parseFloat(rating_shop).toFixed(1)}
+                              </span>
+                              /<span>5</span>
                               <i className="fa fa-star" aria-hidden="true"></i>
                             </p>
                             <p>{"soldQuantity"}</p>
